@@ -10,14 +10,14 @@ const Navbar = () => {
 
   return (
     <div className="bg-[var(--Light)]">
-      <div className="flex justify-between items-baseline py-5 px-5">
+      <div className="flex flex-wrap justify-center md:justify-between items-baseline py-5 px-5">
         <NavLink to="/">
           <h1 className="text-3xl font-bold text-black">
             Women<span className="text-[var(--Pink)]">Power</span>
           </h1>
         </NavLink>
 
-        {/* Desktop Links */}
+        
         <ul className="hidden h-full gap-12 lg:flex">
           <NavLink
             to="/"
@@ -52,7 +52,7 @@ const Navbar = () => {
         </ul>
 
         <div className="flex gap-2 items-baseline">
-          {/* Cart Icon */}
+          
           <div>
             <NavLink to="/Cart">
               <button
@@ -64,7 +64,7 @@ const Navbar = () => {
             </NavLink>
           </div>
 
-          {/* Profile Icon for Small Screens */}
+          
           <div className="lg:hidden">
             <button
               type="button"
@@ -75,7 +75,7 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Menu Button for Small Screens */}
+          
           <div className="inline-block cursor-pointer lg:hidden font-bold text-lg pr-3">
             <button
               onClick={toggleDropdown}
@@ -85,7 +85,7 @@ const Navbar = () => {
               Menu
             </button>
 
-            {/* Mobile Menu */}
+           
             {dropdownOpen && (
               <div
                 id="dropdown"
@@ -121,7 +121,7 @@ const Navbar = () => {
               </div>
             )}
 
-            {/* Profile Dropdown for Small Screens */}
+            
             {downProfile && (
               <div
                 id="drop"
@@ -137,7 +137,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Profile Dropdown for Large Screens */}
+          
           <div className="hidden lg:block">
             <div className="relative">
               <button

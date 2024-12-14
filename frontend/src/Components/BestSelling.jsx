@@ -17,7 +17,7 @@ const BestSelling = () => {
     <div className='bg-[var(--Light)]'>
 
 <h1 className="font-bold text-3xl text-center text-[var(--Brown)] py-10">Best Selling</h1>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols md:grid-cols-2 lg:grid-cols-4">
         {
 
           bestSelling.map((item, index) => {

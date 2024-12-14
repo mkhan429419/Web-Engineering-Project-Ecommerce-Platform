@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 const ProductItem = ({id,title,image,price}) => {
   const {curr}=useContext(ShopContext);
-  console.log(image);  
+   
 
     return (
     <div>
-         <Link to={`/Product/${id}`} className="block m-3 p-2 border rounded-md shadow-md ">
+         <Link to={`/Product/${id}`} className="block m-3 p-2 border rounded-md shadow-md cursor-pointer hover:scale-105 transition-all">
         <div className="relative">
           <img
             src={image}
@@ -18,7 +18,7 @@ const ProductItem = ({id,title,image,price}) => {
         </div>
 
         <div className="p-4">
-          <h2 className="text-lg font-semibold text-gray-800 truncate">{title}</h2>
+          <h2 className="text-lg font-semibold text-gray-700">{title}</h2>
           <p className="text-sm text-gray-600 mt-2">{curr}{price}</p>
         </div>
       </Link>
