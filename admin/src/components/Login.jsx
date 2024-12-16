@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { backendUrl } from "../App";
 import { toast } from "react-toastify";
+import PropTypes from "prop-types";
 
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState("");
@@ -65,6 +66,10 @@ const Login = ({ setToken }) => {
       </div>
     </div>
   );
+};
+
+Login.propTypes = {
+  setToken: PropTypes.func.isRequired,
 };
 
 export default Login;
