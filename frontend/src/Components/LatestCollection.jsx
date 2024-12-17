@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
-import { ShopContext } from '../context/ShopContext';
-import ProductItem from './ProductItem';
+import { useContext, useEffect, useState } from "react";
+import { ShopContext } from "../context/ShopContext";
+import ProductItem from "./ProductItem";
 
 const LatestCollection = () => {
   const { mockData } = useContext(ShopContext);
@@ -11,23 +11,22 @@ const LatestCollection = () => {
   }, [mockData]);
 
   return (
-    <div className='bg-[var(--Light)]'>
-      <h1 className="font-bold text-3xl text-center text-[var(--Brown)] py-10">New Arrivals</h1>
+    <div className="bg-[var(--Light)]">
+      <h1 className="font-bold text-3xl text-center text-[var(--Brown)] py-10">
+        New Arrivals
+      </h1>
       <div className="grid grid-cols md:grid-cols-2 lg:grid-cols-4">
-        {
-
-          newArrivals.map((item, index) => {
-            return (
-              <ProductItem
-                key={index}
-                id={item.id}
-                title={item.title}
-                image={item.image} 
-                price={item.price}
-              />
-            );
-          })
-        }
+        {newArrivals.map((item, index) => {
+          return (
+            <ProductItem
+              key={index}
+              id={item._id}
+              image={item.image}
+              name={item.name}
+              price={item.price}
+            />
+          );
+        })}
       </div>
     </div>
   );
