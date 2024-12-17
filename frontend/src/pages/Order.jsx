@@ -2,15 +2,15 @@ import { useContext } from "react";
 import { ShopContext } from "../context/ShopContext";
 
 const Order = () => {
-  const { mockData, curr } = useContext(ShopContext);
+  const { products, curr } = useContext(ShopContext);
   return (
     <div className="p-5 bg-gray-300">
       <h1 className="font-bold text-2xl">Your Orders</h1>
       <div className="w-full bg-white mt-10 p-5 sm:p-10 rounded-md shadow-lg">
-        {mockData.slice(1, 4).map((product) => {
+        {products.slice(1, 4).map((product) => {
           return (
             <div
-              key={product.id}
+              key={product._id}
               className="grid grid-cols-1 md:grid-cols-4 gap-5 md:gap-10 mt-5 items-center"
             >
               <div className="flex gap-5 col-span-1 md:col-span-2">
@@ -24,7 +24,7 @@ const Order = () => {
                   <p className="font-bold text-lg">{product.title}</p>
                   <p>
                     {curr}
-                    {product.price} Quantity: 1 Size: Medium
+                    {product.price.toString()} Quantity: 1 Size: Medium
                   </p>
                   <p className="text-gray-400">Date: 25, August, 2024</p>
                 </div>

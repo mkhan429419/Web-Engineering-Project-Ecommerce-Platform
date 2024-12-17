@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 import Total from "../Components/Total"
 const Cart = () => {
   const navigate=useNavigate();
-  const {cart, mockData,updateQuantity} = useContext(ShopContext);
+  const {cart, products,updateQuantity} = useContext(ShopContext);
   const keys = Object.keys(cart);
   const findingProductsFromKeys = () => {
-    return mockData.filter((prod) => keys.includes(String(prod.id)));
+    return products.filter((prod) => keys.includes(String(prod._id)));
   };
   const cartProducts = findingProductsFromKeys();
   return (
@@ -25,9 +25,9 @@ const Cart = () => {
           </div>
           {cartProducts.length > 0 ? (
             cartProducts.map((product) => {
-              return Object.keys(cart[product.id]).map((size) => {
+              return Object.keys(cart[product._id]).map((size) => {
                 return (
-                  <div key={product.id + size}>
+                  <div key={product._id + size}>
                     <div className="grid grid-cols-2 sm:grid-cols-5 text-lg gap-10 mt-5">
                       <div className="flex justify-start col-span-2 gap-5">
                         <img
@@ -45,16 +45,16 @@ const Cart = () => {
                         <input
                           type="number"
                           min={1}
-                          defaultValue={cart[product.id][size]}
+                          defaultValue={cart[product._id][size]}
                           className="w-full md:w-20 border-2 border-black rounded-sm p-1"
-                          onChange={(e)=>updateQuantity(product.id,size,parseInt(e.target.value))}
+                          onChange={(e)=>updateQuantity(product._id,size,parseInt(e.target.value))}
                         />
                       </p>
-                      <p className="font-bold">{product.price}</p>
+                      <p className="font-bold">{product.price.toString()}</p>
                       <FontAwesomeIcon
                         icon={faTrash}
                         className="ml-2 text-red-600 cursor-pointer"
-                        onClick={()=>{updateQuantity(product.id,size,0)}}
+                        onClick={()=>{updateQuantity(product._id,size,0)}}
                       />
                     </div>
                     <hr className="my-5 border-gray-300" />

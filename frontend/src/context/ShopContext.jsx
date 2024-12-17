@@ -1,10 +1,11 @@
 import { createContext, useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"; 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-export const ShopContext = createContext();
 import axios from "axios";
-import mockData from "../assets/mockData";
+
+// Create the ShopContext
+export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
   const curr = "Rs";
@@ -15,6 +16,7 @@ const ShopContextProvider = (props) => {
   const [products, setProducts] = useState([]);
   const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const addingAnItemToTheCart = (id, size) => {
     if (!size) {
@@ -76,14 +78,14 @@ const ShopContextProvider = (props) => {
     let amount = 0;
     for (const productId in cart) {
       for (const size in cart[productId]) {
-        const product = mockData.find((prod) => prod._id === productId);
+        const product = products.find((prod) => prod._id === productId);
         if (product) {
           const quantity = cart[productId][size];
           amount += product.price * quantity;
         }
       }
     }
-    setTotalAmount(amount.toFixed(2));
+    setTotalAmount(amount.toFixed(2)); // Ensure the total is updated correctly
   };
 
   const getProductsData = async () => {
@@ -97,6 +99,8 @@ const ShopContextProvider = (props) => {
     } catch (error) {
       console.error("Error fetching products:", error);
       toast.error("Failed to fetch products. Please try again.");
+    } finally {
+      setLoading(false); // Set loading to false after fetching is complete (success or failure)
     }
   };
 
@@ -113,6 +117,7 @@ const ShopContextProvider = (props) => {
   const value = {
     products,
     curr,
+    loading, 
     Delivery_charges,
     cart,
     addingAnItemToTheCart,
@@ -127,8 +132,9 @@ const ShopContextProvider = (props) => {
   );
 };
 
+// Add prop validation for children
 ShopContextProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired, // Validate children as a required prop
 };
 
 export default ShopContextProvider;
