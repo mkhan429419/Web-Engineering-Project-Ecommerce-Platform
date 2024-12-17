@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-
+import { useContext, useState } from 'react';
+import { NavLink,Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars} from '@fortawesome/free-solid-svg-icons'
+import { ShopContext } from '../context/ShopContext';
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [downProfile, setDownProfile] = useState(false);
-
+  const { numberOfItemsInCart}=useContext(ShopContext);
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
   const toggleProfile = () => setDownProfile(!downProfile);
 
@@ -51,7 +53,7 @@ const Navbar = () => {
           </NavLink>
         </ul>
 
-        <div className="flex gap-2 items-baseline">
+        <div className="flex gap-2 items-baseline ">
           
           <div>
             <NavLink to="/Cart">
@@ -59,13 +61,17 @@ const Navbar = () => {
                 type="button"
                 className="text-lg cursor-pointer pb-1.5 transition-all px-2 hover:font-bold font-serif"
               >
-                <i className="fa-solid fa-cart-shopping"></i>
+                <i className="fa-solid fa-cart-shopping relative">
+                <p className='absolute right-[-7px] bottom-[-5px] bg-black text-white text-[8px] rounded-full p-1'>{numberOfItemsInCart}</p>
+                </i>
               </button>
+              
             </NavLink>
           </div>
 
           
           <div className="lg:hidden">
+          <Link to="/Login">
             <button
               type="button"
               className="text-lg cursor-pointer pb-1.5 transition-all px-2 hover:font-bold"
@@ -73,6 +79,7 @@ const Navbar = () => {
             >
               <i className="fas fa-user"></i>
             </button>
+            </Link> 
           </div>
 
           
@@ -82,7 +89,7 @@ const Navbar = () => {
               className="text-[var(--Pink)] font-bold text-xl inline-flex items-center hover:scale-105 transition-all cursor-pointer"
               type="button"
             >
-              Menu
+             <FontAwesomeIcon icon={faBars} />
             </button>
 
            
@@ -140,12 +147,14 @@ const Navbar = () => {
           
           <div className="hidden lg:block">
             <div className="relative">
+            <Link to="/Login">
               <button
                 onClick={toggleProfile}
                 className="text-lg cursor-pointer pb-1.5 transition-all px-2 hover:font-bold"
               >
                 <i className="fas fa-user"></i>
               </button>
+              </Link>
 
               {downProfile && (
                 <div

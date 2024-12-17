@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ShopContext } from '../context/ShopContext';
-
 import ProductItem from '../Components/ProductItem';
+import StorePolicy from '../Components/StorePolicy';
 const Collection = () => {
     const { mockData } = useContext(ShopContext);
     const [ourCollection, setOurCollection] = useState([]);
@@ -104,6 +104,7 @@ const Collection = () => {
                     })
                 }
             </div>
+            <StorePolicy/>
 
 
         </div>
