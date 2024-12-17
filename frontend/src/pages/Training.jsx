@@ -1,8 +1,8 @@
-import React from 'react'
-
 const Training = () => {
   return (
-    <div>Training</div>
+    <div>
+      <div></div>
+    </div>
   )
 }
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
@@ -12,10 +11,14 @@ import Product from './pages/Product'
 import Training from './pages/Training'
 import Navbar from './Components/Navbar'
 import Footer from './Components/Footer'
+import { ToastContainer } from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
+
 const App = () => {
   return (
     
     <div>
+      <ToastContainer/>
       <Navbar/>
       <Routes>
         <Route path='/' element={<Home />}/>
