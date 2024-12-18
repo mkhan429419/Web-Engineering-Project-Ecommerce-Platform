@@ -7,7 +7,7 @@ const Order = () => {
     <div className="p-5 bg-gray-300">
       <h1 className="font-bold text-2xl">Your Orders</h1>
       <div className="w-full bg-white mt-10 p-5 sm:p-10 rounded-md shadow-lg">
-        {products.slice(1, 4).map((product) => {
+        {products.map((product) => {
           return (
             <div
               key={product._id}

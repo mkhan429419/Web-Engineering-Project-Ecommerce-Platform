@@ -15,7 +15,7 @@ const ProductItem = ({ id, title, image, price}) => {
           <img
             src={image[0]}
             alt={title}
-            className="w-full h-60 object-cover object-center"
+            className="w-full h-60 object-cover object-top"
           />
         </div>
 

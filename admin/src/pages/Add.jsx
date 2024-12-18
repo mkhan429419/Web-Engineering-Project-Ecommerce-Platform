@@ -11,12 +11,12 @@ const Add = ({ token }) => {
   const [image3, setImage3] = useState(false);
   const [image4, setImage4] = useState(false);
 
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("Men");
   const [subCategory, setSubCategory] = useState("Topwear");
-  const [bestseller, setBestseller] = useState(false);
+  const [BestSell, setBestSell] = useState(false);
   const [sizes, setSizes] = useState([]);
 
   const onSubmitHandler = async (e) => {
@@ -25,12 +25,12 @@ const Add = ({ token }) => {
     try {
       const formData = new FormData();
 
-      formData.append("name", name);
+      formData.append("title", title);
       formData.append("description", description);
       formData.append("price", price);
       formData.append("category", category);
       formData.append("subCategory", subCategory);
-      formData.append("bestseller", bestseller);
+      formData.append("bestseller", BestSell);
       formData.append("sizes", JSON.stringify(sizes));
 
       image1 && formData.append("image1", image1);
@@ -46,7 +46,7 @@ const Add = ({ token }) => {
 
       if (response.data.success) {
         toast.success(response.data.message);
-        setName("");
+        setTitle("");
         setDescription("");
         setImage1(false);
         setImage2(false);
@@ -129,8 +129,8 @@ const Add = ({ token }) => {
       <div className="w-full">
         <p className="mb-2">Product name</p>
         <input
-          onChange={(e) => setName(e.target.value)}
-          value={name}
+          onChange={(e) => setTitle(e.target.value)}
+          value={title}
           className="w-full max-w-[500px] px-3 py-2"
           type="text"
           placeholder="Type here"
@@ -169,9 +169,10 @@ const Add = ({ token }) => {
             onChange={(e) => setSubCategory(e.target.value)}
             className="w-full px-3 py-2"
           >
-            <option value="Topwear">Topwear</option>
-            <option value="Bottomwear">Bottomwear</option>
-            <option value="Winterwear">Winterwear</option>
+            <option value="Tops">Tops</option>
+            <option value="Bottoms">Bottoms</option>
+            <option value="Hoodies">Hoodies</option>
+            <option value="Shirts">Shirts</option>
           </select>
         </div>
 
@@ -284,8 +285,8 @@ const Add = ({ token }) => {
 
       <div className="flex gap-2 mt-2">
         <input
-          onChange={() => setBestseller((prev) => !prev)}
-          checked={bestseller}
+          onChange={() => setBestSell((prev) => !prev)}
+          checked={BestSell}
           type="checkbox"
           id="bestseller"
         />

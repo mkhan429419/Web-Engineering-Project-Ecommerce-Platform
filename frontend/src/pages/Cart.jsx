@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Total from "../Components/Total"
 const Cart = () => {
   const navigate=useNavigate();
-  const {cart, products,updateQuantity} = useContext(ShopContext);
+  const {cart, products,updateQuantity,curr} = useContext(ShopContext);
   const keys = Object.keys(cart);
   const findingProductsFromKeys = () => {
     return products.filter((prod) => keys.includes(String(prod._id)));
@@ -50,7 +50,7 @@ const Cart = () => {
                           onChange={(e)=>updateQuantity(product._id,size,parseInt(e.target.value))}
                         />
                       </p>
-                      <p className="font-bold">{product.price.toString()}</p>
+                      <p className="font-bold">{curr}.{product.price.toString()}</p>
                       <FontAwesomeIcon
                         icon={faTrash}
                         className="ml-2 text-red-600 cursor-pointer"

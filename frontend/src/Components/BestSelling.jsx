@@ -27,7 +27,7 @@ const BestSelling = () => {
           return (
             <ProductItem
               key={index}
-              id={Number(item._id)}
+              id={item._id}
               title={item.title}
               image={item.image}
               price={item.price.toString()}

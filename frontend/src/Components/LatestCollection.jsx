@@ -22,7 +22,7 @@ const LatestCollection = () => {
           return (
             <ProductItem
               key={index}
-              id={Number(item._id)}
+              id={item._id}
               image={item.image}
               title={item.title}
               price={item.price.toString()}

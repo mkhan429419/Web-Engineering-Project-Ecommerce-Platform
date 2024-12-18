@@ -22,16 +22,20 @@ const Product = () => {
 
   useEffect(() => {
     fetchingData();  
-  }, [ProductId]);  // Add ProductId as a dependency to prevent infinite loop
+  }, [ProductId]);
 
   const getSimilarProducts = (category) => {
-    return products.filter(item => item.category === category && item._id !== isData._id);  // Fix the ID check
+    return products.filter(item => item.category === category && item._id !== isData._id);  
+  };
+
+  const handleImageClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });  // Scroll to the top of the page smoothly
   };
 
   return isData ? ( 
-    <div className='bg-[var(--Light)]'>
+    <div className='bg-white'>
       <div className='block lg:flex'>
-        <div className='lg:w-3/5'>
+        <div className='lg:w-2/4'>
           <TransformWrapper>
             <TransformComponent
               wrapperStyle={{
@@ -43,15 +47,15 @@ const Product = () => {
                 width: "100%",
               }}
             >
-              <img src={image} alt={isData.title} className='w-full'/>
+              <img src={image} alt={isData.title} className=' aspect-[4/5] w-full md:aspect-[5/3]'/>
             </TransformComponent>
           </TransformWrapper>
         </div>
-        <div className='pb-4 px-2 lg:w-2/5'>
+        <div className=' lg:w-2/4 p-10'>
           <h1 className='text-[var(--Pink)] text-3xl font-bold pb-2 pt-5 lg:pt-0'>{isData.title}</h1>  
           <hr/>
           <p className='py-2 text-gray-600 text-lg'>
-            <span className='text-3xl font-bold text-gray-500'>{curr}</span>{isData.price}
+            <span className='text-3xl font-bold text-gray-500'>{curr}.</span>{isData.price}
           </p> 
           <p className='text-[var(--Brown)] text-xl'>{isData.description}</p> 
           
@@ -103,13 +107,14 @@ const Product = () => {
       <h1 className="font-bold text-3xl text-center text-[var(--Yellow)] py-10">You May Also Like...</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {getSimilarProducts(isData.category).map((similarProduct) => (
-          <ProductItem
-            key={similarProduct._id}
-            id={similarProduct._id}
-            title={similarProduct.title}
-            image={similarProduct.image} 
-            price={similarProduct.price.toString()}
-          />
+          <div key={similarProduct._id} onClick={handleImageClick}>
+            <ProductItem
+              id={similarProduct._id}
+              title={similarProduct.title}
+              image={similarProduct.image} 
+              price={similarProduct.price.toString()}
+            />
+          </div>
         ))}
       </div>
     </div>
@@ -119,3 +124,4 @@ const Product = () => {
 };
 
 export default Product;
+

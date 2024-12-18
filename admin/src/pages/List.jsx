@@ -67,7 +67,7 @@ const List = ({ token }) => {
             key={index}
           >
             <img className="w-12" src={item.image[0]} alt="" />
-            <p>{item.name}</p>
+            <p>{item.title}</p>
             <p>{item.category}</p>
             <p>
               {currency}
