@@ -226,6 +226,7 @@ const ShopContextProvider = (props) => {
     token,
     setNumberOfItemsInCart,
     deleteProductFromCart,
+    setCart,
   };
 
   return (

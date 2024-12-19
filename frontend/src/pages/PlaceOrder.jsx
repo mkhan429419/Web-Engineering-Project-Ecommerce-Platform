@@ -14,6 +14,8 @@ const PlaceOrder = () => {
     navigate,
     Delivery_charges,
     products,
+    setCart,
+    setNumberOfItemsInCart,
   } = useContext(ShopContext);
 
   const calculateFinalAmount = () => {
@@ -90,16 +92,15 @@ const PlaceOrder = () => {
           position: "top-right",
           autoClose: 2000,
         });
+        setCart({});
+        setNumberOfItemsInCart(0);
         navigate("/Order");
       } else {
-        throw new Error(response.data.message);
+        toast.error(response.data.message);
       }
     } catch (error) {
       console.error("Error placing order:", error);
-      toast.error("Failed to place order. Please try again.", {
-        position: "top-right",
-        autoClose: 2000,
-      });
+      toast.error(error.message);
     }
   };
 
