@@ -12,7 +12,6 @@ const placeOrder = async (req, res) => {
       address,
       amount,
       paymentMethod,
-      payment: false,
       date: Date.now(),
     };
 
