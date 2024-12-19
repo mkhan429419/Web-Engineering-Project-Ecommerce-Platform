@@ -1,15 +1,63 @@
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
+import { ShopContext } from "../context/ShopContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [loggedInOrSignIn, setloggedInOrSignIn] = useState("Sign up");
-  const formHandler=async(e)=>{
+  const { token, setToken, navigate, backendUrl } = useContext(ShopContext);
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+
+  const formHandler = async (e) => {
     e.preventDefault();
-  }
+    try {
+      if (loggedInOrSignIn === "Sign up") {
+        const response = await axios.post(backendUrl + "/api/user/register", {
+          name,
+          email,
+          password,
+        });
+        if (response.data.success) {
+          setToken(response.data.token);
+          localStorage.setItem("token", response.data.token);
+        } else {
+          toast.error(response.data.message);
+        }
+      } else {
+        const response = await axios.post(backendUrl + "/api/user/login", {
+          email,
+          password,
+        });
+        if (response.data.success) {
+          setToken(response.data.token);
+          localStorage.setItem("token", response.data.token);
+        } else {
+          toast.error(response.data.message);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, [token]);
+
   return (
-    <div className="flex justify-center 
-    items-center md:my-20 my-10 ">
+    <div
+      className="flex justify-center 
+    items-center md:my-20 my-10 "
+    >
       <div className="bg-[var(--LightBrown)] rounded-md p-5 w-[90%] sm:w-[80%] md:w-[60%] lg:w-[40%] xl:w-[30%] min-w-[18rem]">
-        <h1 className="text-2xl font-semibold text-center">{loggedInOrSignIn}</h1>
+        <h1 className="text-2xl font-semibold text-center">
+          {loggedInOrSignIn}
+        </h1>
         <form className="grid grid-cols-1 gap-5 mt-5" onSubmit={formHandler}>
           {loggedInOrSignIn === "Sign up" && (
             <div className="flex flex-col">
@@ -17,6 +65,8 @@ const Login = () => {
                 Name:
               </label>
               <input
+                onChange={(e) => setName(e.target.value)}
+                value={name}
                 type="text"
                 name="name"
                 id="name"
@@ -31,6 +81,8 @@ const Login = () => {
               Email:
             </label>
             <input
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
               type="email"
               name="email"
               id="email"
@@ -44,6 +96,8 @@ const Login = () => {
               Password:
             </label>
             <input
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
               type="password"
               name="password"
               id="password"
@@ -52,9 +106,7 @@ const Login = () => {
             />
           </div>
           <div className="mt-5 flex justify-between text-sm">
-            <p className="cursor-pointer">
-              Forgot Password?
-            </p>
+            <p className="cursor-pointer">Forgot Password?</p>
             <p
               className="cursor-pointer"
               onClick={() =>
@@ -66,7 +118,13 @@ const Login = () => {
               {loggedInOrSignIn === "Sign up" ? "Login" : "Create Account"}
             </p>
           </div>
-          <button className="bg-white p-3 rounded-md max-w-30 justify-self-center" type="submit"> <p className="text-lg font-semibold">{loggedInOrSignIn}</p></button>
+          <button
+            className="bg-white p-3 rounded-md max-w-30 justify-self-center"
+            type="submit"
+          >
+            {" "}
+            <p className="text-lg font-semibold">{loggedInOrSignIn}</p>
+          </button>
         </form>
       </div>
     </div>
