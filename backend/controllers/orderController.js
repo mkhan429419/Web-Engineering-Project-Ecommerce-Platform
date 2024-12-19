@@ -11,62 +11,7 @@ const placeOrder = async (req, res) => {
       items,
       address,
       amount,
-      paymentMethod: "COD",
-      payment: false,
-      date: Date.now(),
-    };
-
-    const newOrder = new orderModel(orderData);
-    await newOrder.save();
-
-    await userModel.findByIdAndUpdate(userId, { cartData: {} });
-
-    res.json({ success: true, message: "Order Placed" });
-  } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: error.message });
-  }
-};
-
-// Placing orders using Stripe Method
-const placeOrderStripe = async (req, res) => {
-  try {
-    const { userId, items, amount, address } = req.body;
-    const { origin } = req.headers;
-
-    const orderData = {
-      userId,
-      items,
-      address,
-      amount,
-      paymentMethod: "Stripe",
-      payment: false,
-      date: Date.now(),
-    };
-
-    const newOrder = new orderModel(orderData);
-    await newOrder.save();
-
-    await userModel.findByIdAndUpdate(userId, { cartData: {} });
-
-    res.json({ success: true, message: "Order Placed" });
-  } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: error.message });
-  }
-};
-
-// Placing orders using Razorpay Method
-const placeOrderRazorpay = async (req, res) => {
-  try {
-    const { userId, items, amount, address } = req.body;
-
-    const orderData = {
-      userId,
-      items,
-      address,
-      amount,
-      paymentMethod: "Razorpay",
+      paymentMethod,
       payment: false,
       date: Date.now(),
     };
@@ -120,11 +65,4 @@ const updateStatus = async (req, res) => {
   }
 };
 
-export {
-  placeOrder,
-  placeOrderStripe,
-  placeOrderRazorpay,
-  allOrders,
-  userOrders,
-  updateStatus,
-};
+export { placeOrder, allOrders, userOrders, updateStatus };
