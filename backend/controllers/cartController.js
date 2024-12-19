@@ -61,4 +61,42 @@ const getUserCart = async (req, res) => {
   }
 };
 
-export { addToCart, updateCart, getUserCart };
+const deleteProductFromCart = async (req, res) => {
+  try {
+    const { userId, itemId, size } = req.body;
+
+    const userData = await userModel.findById(userId);
+    let cartData = (await userData.cartData) || {};
+
+    if (cartData[itemId]) {
+      if (size) {
+        delete cartData[itemId][size];
+
+        if (Object.keys(cartData[itemId]).length === 0) {
+          delete cartData[itemId];
+        }
+      } else {
+        delete cartData[itemId];
+      }
+    }
+
+    Object.keys(cartData).forEach((key) => {
+      if (
+        cartData[key] === null ||
+        (typeof cartData[key] === "object" &&
+          Object.keys(cartData[key]).length === 0)
+      ) {
+        delete cartData[key];
+      }
+    });
+
+    await userModel.findByIdAndUpdate(userId, { cartData });
+
+    res.json({ success: true, message: "Product removed from cart" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export { addToCart, updateCart, getUserCart, deleteProductFromCart };

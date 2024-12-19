@@ -3,10 +3,11 @@ import { ShopContext } from "../context/ShopContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import Total from "../Components/Total"
+import Total from "../Components/Total";
 const Cart = () => {
-  const navigate=useNavigate();
-  const {cart, products,updateQuantity,curr} = useContext(ShopContext);
+  const navigate = useNavigate();
+  const { cart, products, updateQuantity, curr, deleteProductFromCart } =
+    useContext(ShopContext);
   const keys = Object.keys(cart);
   const findingProductsFromKeys = () => {
     return products.filter((prod) => keys.includes(String(prod._id)));
@@ -47,14 +48,24 @@ const Cart = () => {
                           min={1}
                           defaultValue={cart[product._id][size]}
                           className="w-full md:w-20 border-2 border-black rounded-sm p-1"
-                          onChange={(e)=>updateQuantity(product._id,size,parseInt(e.target.value))}
+                          onChange={(e) =>
+                            updateQuantity(
+                              product._id,
+                              size,
+                              parseInt(e.target.value)
+                            )
+                          }
                         />
                       </p>
-                      <p className="font-bold">{curr}.{product.price.toString()}</p>
+                      <p className="font-bold">
+                        {curr}.{product.price.toString()}
+                      </p>
                       <FontAwesomeIcon
                         icon={faTrash}
                         className="ml-2 text-red-600 cursor-pointer"
-                        onClick={()=>{updateQuantity(product._id,size,0)}}
+                        onClick={() => {
+                          deleteProductFromCart(product._id, size);
+                        }}
                       />
                     </div>
                     <hr className="my-5 border-gray-300" />
@@ -68,8 +79,13 @@ const Cart = () => {
         </div>
       </div>
       <div className="bg-white p-10 rounded-md shadow-lg height-auto inline-block">
-        <Total/>
-        <button className="bg-[var(--LightBrown)] p-2 rounded-md mt-3" onClick={()=>navigate('/PlaceOrder')}>Place Orders</button>
+        <Total />
+        <button
+          className="bg-[var(--LightBrown)] p-2 rounded-md mt-3"
+          onClick={() => navigate("/PlaceOrder")}
+        >
+          Place Orders
+        </button>
       </div>
     </div>
   );

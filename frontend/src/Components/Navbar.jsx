@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { ShopContext } from "../context/ShopContext";
@@ -82,15 +82,13 @@ const Navbar = () => {
           </div>
 
           <div className="lg:hidden">
-            <Link to="/Login">
-              <button
-                type="button"
-                className="text-lg cursor-pointer pb-1.5 transition-all px-2 hover:font-bold"
-                onClick={toggleProfile}
-              >
-                <i className="fas fa-user"></i>
-              </button>
-            </Link>
+            <button
+              onClick={toggleProfile}
+              type="button"
+              className="text-lg cursor-pointer pb-1.5 transition-all px-2 hover:font-bold"
+            >
+              <i className="fas fa-user"></i>
+            </button>
           </div>
 
           <div className="inline-block cursor-pointer lg:hidden font-bold text-lg pr-3">
@@ -149,19 +147,29 @@ const Navbar = () => {
                 className="fixed z-20 divide-y divide-gray-100 rounded-md shadow bg-[var(--Light)]"
               >
                 <ul className="py-2 text-sm">
-                  <li className="block px-2 text-[var(--Brown)] py-2 hover:text-yellow-800">
-                    My Profile
-                  </li>
-                  <li className="block px-2 text-[var(--Brown)] py-2 hover:text-yellow-800">
-                    My Orders
-                  </li>
                   <li
-                    onClick={logout}
+                    onClick={() => (token ? null : navigate("/Login"))}
                     className="block px-2 text-[var(--Brown)] py-2 hover:text-yellow-800"
                   >
-                    Log Out
+                    My Profile
                   </li>
-                  <hr />
+                  {token && (
+                    <>
+                      <li
+                        onClick={() => navigate("/Order")}
+                        className="block px-2 text-[var(--Brown)] py-2 hover:text-yellow-800"
+                      >
+                        My Orders
+                      </li>
+                      <li
+                        onClick={logout}
+                        className="block px-2 text-[var(--Brown)] py-2 hover:text-yellow-800"
+                      >
+                        Log Out
+                      </li>
+                      <hr />
+                    </>
+                  )}
                 </ul>
               </div>
             )}
@@ -169,14 +177,12 @@ const Navbar = () => {
 
           <div className="hidden lg:block">
             <div className="relative">
-              <Link to="/Login">
-                <button
-                  onClick={toggleProfile}
-                  className="text-lg cursor-pointer pb-1.5 transition-all px-2 hover:font-bold"
-                >
-                  <i className="fas fa-user"></i>
-                </button>
-              </Link>
+              <button
+                onClick={toggleProfile}
+                className="text-lg cursor-pointer pb-1.5 transition-all px-2 hover:font-bold"
+              >
+                <i className="fas fa-user"></i>
+              </button>
 
               {downProfile && (
                 <div
@@ -184,19 +190,29 @@ const Navbar = () => {
                   className="absolute top-full right-0 z-20 divide-y divide-gray-100 rounded-md shadow bg-[var(--Light)]"
                 >
                   <ul className="py-2 text-sm">
-                    <li className="block  px-2 text-[var(--Brown)] py-2 hover:text-yellow-800">
+                    <li
+                      onClick={() => (token ? null : navigate("/Login"))}
+                      className="block  px-2 text-[var(--Brown)] py-2 hover:text-yellow-800"
+                    >
                       My Profile
                     </li>
-                    <li className="block px-2 text-[var(--Brown)] py-2 hover:text-yellow-800">
-                      My Orders
-                    </li>
-                    <li
-                      onClick={logout}
-                      className="block px-2 text-[var(--Brown)] py-2 hover:text-yellow-800"
-                    >
-                      Log Out
-                    </li>
-                    <hr />
+                    {token && (
+                      <>
+                        <li
+                          onClick={() => navigate("/Order")}
+                          className="block px-2 text-[var(--Brown)] py-2 hover:text-yellow-800"
+                        >
+                          My Orders
+                        </li>
+                        <li
+                          onClick={logout}
+                          className="block px-2 text-[var(--Brown)] py-2 hover:text-yellow-800"
+                        >
+                          Log Out
+                        </li>
+                        <hr />
+                      </>
+                    )}
                   </ul>
                 </div>
               )}

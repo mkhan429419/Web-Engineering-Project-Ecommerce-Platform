@@ -51,7 +51,7 @@ const ShopContextProvider = (props) => {
       try {
         await axios.post(
           `${backendUrl}/api/cart/add`,
-          { id, size },
+          { itemId: id, size },
           {
             headers: { token },
           }
@@ -66,6 +66,44 @@ const ShopContextProvider = (props) => {
       position: "top-right",
       autoClose: 2000,
     });
+  };
+
+  const deleteProductFromCart = async (id, size) => {
+    const cartClone = structuredClone(cart);
+
+    if (cartClone[id]) {
+      if (size) {
+        delete cartClone[id][size];
+        if (Object.keys(cartClone[id]).length === 0) {
+          delete cartClone[id];
+        }
+      } else {
+        delete cartClone[id];
+      }
+
+      setCart(cartClone);
+      findNumberOfItemsInCart(cartClone);
+      findTotalAmount(cartClone);
+
+      if (token) {
+        try {
+          await axios.post(
+            `${backendUrl}/api/cart/delete`,
+            { itemId: id, size },
+            {
+              headers: { token },
+            }
+          );
+          toast.success("Item successfully removed from the cart", {
+            position: "top-right",
+            autoClose: 2000,
+          });
+        } catch (error) {
+          console.error(error);
+          toast.error("Failed to delete item from server.");
+        }
+      }
+    }
   };
 
   const updateQuantity = async (id, size, quantity) => {
@@ -86,7 +124,7 @@ const ShopContextProvider = (props) => {
       try {
         await axios.post(
           `${backendUrl}/api/cart/update`,
-          { id, size, quantity },
+          { itemId: id, size, quantity },
           {
             headers: { token },
           }
@@ -172,10 +210,6 @@ const ShopContextProvider = (props) => {
     }
   }, [token]);
 
-  useEffect(() => {
-    getUserCart();
-  }, [token]);
-
   const value = {
     products,
     curr,
@@ -191,6 +225,7 @@ const ShopContextProvider = (props) => {
     setToken,
     token,
     setNumberOfItemsInCart,
+    deleteProductFromCart,
   };
 
   return (
