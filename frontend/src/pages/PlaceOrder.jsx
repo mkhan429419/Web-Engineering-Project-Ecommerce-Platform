@@ -1,9 +1,108 @@
 import Total from "../Components/Total";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { ShopContext } from "../context/ShopContext";
+import { toast } from "react-toastify";
+import axios from "axios";
+
 const PlaceOrder = () => {
-  const navigate = useNavigate();
   const [method, setMethod] = useState("stripe");
+  const {
+    cart,
+    totalAmount,
+    backendUrl,
+    token,
+    navigate,
+    Delivery_charges,
+    products,
+  } = useContext(ShopContext);
+
+  const calculateFinalAmount = () => {
+    return method === "cod"
+      ? parseFloat(totalAmount) + Delivery_charges
+      : parseFloat(totalAmount);
+  };
+
+  const placeOrder = async () => {
+    const formData = new FormData(document.querySelector("form"));
+    const address = {
+      firstName: formData.get("fname"),
+      lastName: formData.get("lname"),
+      email: formData.get("email"),
+      street: formData.get("street"),
+      city: formData.get("city"),
+      state: formData.get("state"),
+      zipcode: formData.get("zipcode"),
+      country: formData.get("country"),
+      phone: formData.get("phone"),
+    };
+
+    // Validation
+    if (Object.values(address).some((field) => !field)) {
+      toast.error("Please fill in all shipping details.", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+      return;
+    }
+
+    if (!Object.keys(cart).length) {
+      toast.error("Your cart is empty!", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+      return;
+    }
+
+    const finalAmount = calculateFinalAmount();
+
+    let orderItems = [];
+    for (const itemId in cart) {
+      for (const size in cart[itemId]) {
+        if (cart[itemId][size] > 0) {
+          const product = structuredClone(
+            products.find((prod) => prod._id === itemId)
+          );
+          if (product) {
+            product.size = size;
+            product.quantity = cart[itemId][size];
+            orderItems.push(product);
+          }
+        }
+      }
+    }
+
+    try {
+      const response = await axios.post(
+        `${backendUrl}/api/order/place`,
+        {
+          items: orderItems,
+          amount: finalAmount,
+          address,
+          paymentMethod: method,
+        },
+        {
+          headers: { token },
+        }
+      );
+
+      if (response.data.success) {
+        toast.success("Order placed successfully!", {
+          position: "top-right",
+          autoClose: 2000,
+        });
+        navigate("/Order");
+      } else {
+        throw new Error(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error placing order:", error);
+      toast.error("Failed to place order. Please try again.", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+    }
+  };
+
   return (
     <div className="p-5 bg-[var(--Light)] grid lg:grid-cols-3 lg:gap-5 sm:grid-cols-1">
       <div className="lg:col-span-2 mb-10">
@@ -187,10 +286,10 @@ const PlaceOrder = () => {
         </div>
       </div>
       <div className="bg-white p-10 rounded-md shadow-lg">
-        <Total />
+        <Total deliveryCharges={method === "cod" ? Delivery_charges : 0} />
         <button
           className="bg-[var(--LightBrown)] p-2 rounded-md mt-3"
-          onClick={() => navigate("/Order")}
+          onClick={placeOrder}
         >
           Place Order
         </button>
