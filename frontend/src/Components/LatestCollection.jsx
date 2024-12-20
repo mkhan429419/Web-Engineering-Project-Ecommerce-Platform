@@ -1,20 +1,22 @@
-import { useContext, useEffect, useState } from "react";
-import { ShopContext } from "../context/ShopContext";
-import ProductItem from "./ProductItem";
+import { useContext, useEffect, useState } from 'react';
+import { ShopContext } from '../context/ShopContext';
+import ProductItem from './ProductItem';
 
 const LatestCollection = () => {
-  const { mockData } = useContext(ShopContext);
+  const { products ,loading} = useContext(ShopContext);
   const [newArrivals, setNewArrivals] = useState([]);
 
   useEffect(() => {
-    setNewArrivals(mockData.slice(0, 10)); // Slice the first 9 items
-  }, [mockData]);
-
+    console.log("products",  products);
+    setNewArrivals(  products.slice(0, 10)); // Slice the first 9 items
+  }, [products]);
+  if (loading || products.length === 0) {
+    return <p>Loading products...</p>; // Show loading state
+  }
+  
   return (
-    <div className="bg-[var(--Light)]">
-      <h1 className="font-bold text-3xl text-center text-[var(--Brown)] py-10">
-        New Arrivals
-      </h1>
+    <div className='bg-[var(--Light)]'>
+      <h1 className="font-bold text-3xl text-center text-[var(--Brown)] py-10">New Arrivals</h1>
       <div className="grid grid-cols md:grid-cols-2 lg:grid-cols-4">
         {newArrivals.map((item, index) => {
           return (
@@ -22,8 +24,8 @@ const LatestCollection = () => {
               key={index}
               id={item._id}
               image={item.image}
-              name={item.name}
-              price={item.price}
+              title={item.title}
+              price={item.price.toString()}
             />
           );
         })}
