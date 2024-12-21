@@ -17,10 +17,13 @@ const Navbar = () => {
   const toggleProfile = () => setDownProfile(!downProfile);
 
   const logout = () => {
-    navigate("/login");
+    // Use a timeout to delay the navigation to allow state updates
     localStorage.removeItem("token");
     setToken("");
-    setNumberOfItemsInCart({});
+    setNumberOfItemsInCart(0);
+    setTimeout(() => {
+      navigate("/login");
+    }, 100); // Adjust the timeout if necessary
   };
 
   return (
@@ -74,7 +77,7 @@ const Navbar = () => {
               >
                 <i className="fa-solid fa-cart-shopping relative">
                   <p className="absolute right-[-7px] bottom-[-5px] bg-black text-white text-[8px] rounded-full p-1">
-                    {numberOfItemsInCart}
+                    {numberOfItemsInCart || 0}
                   </p>
                 </i>
               </button>
