@@ -1,3 +1,4 @@
+import React from "react";
 import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
@@ -11,7 +12,7 @@ export const ShopContext = createContext();
 const ShopContextProvider = (props) => {
   const curr = "Rs";
   const Delivery_charges = 200;
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const backendUrl = "http://localhost:4000";
 
   const [cart, setCart] = useState({});
   const [products, setProducts] = useState([]);
