@@ -23,7 +23,7 @@ const Login = () => {
           setToken(response.data.token);
           localStorage.setItem("token", response.data.token);
         } else {
-          toast.error(response.data.message);
+          toast.error(response.data.message || "An error occurred");
         }
       } else {
         const response = await axios.post(backendUrl + "/api/user/login", {
@@ -34,12 +34,14 @@ const Login = () => {
           setToken(response.data.token);
           localStorage.setItem("token", response.data.token);
         } else {
-          toast.error(response.data.message);
+          toast.error(response.data.message || "An error occurred");
         }
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.message);
+      toast.error(
+        error.response?.data?.message || error.message || "An error occurred"
+      );
     }
   };
 
