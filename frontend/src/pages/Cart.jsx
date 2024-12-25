@@ -63,6 +63,7 @@ const Cart = () => {
                       </p>
                       <FontAwesomeIcon
                         icon={faTrash}
+                        data-testid={`delete-icon-${product._id}-${size}`}
                         className="ml-2 text-red-600 cursor-pointer"
                         onClick={() => {
                           deleteProductFromCart(product._id, size);
