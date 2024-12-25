@@ -222,6 +222,7 @@ const PlaceOrder = () => {
                   ? "border-[var(--Pink)] bg-[var(--Light)] shadow-md"
                   : "border-gray-300 bg-white"
               }`}
+              data-testid="payment-method-stripe"
             >
               <div
                 className={`w-5 h-5 border rounded-full flex justify-center items-center ${
@@ -246,6 +247,7 @@ const PlaceOrder = () => {
                   ? "border-[var(--Pink)] bg-[var(--Light)] shadow-md"
                   : "border-gray-300 bg-white"
               }`}
+              data-testid="payment-method-razorpay"
             >
               <div
                 className={`w-5 h-5 border rounded-full flex justify-center items-center ${
@@ -270,6 +272,7 @@ const PlaceOrder = () => {
                   ? "border-[var(--Pink)] bg-[var(--Light)] shadow-md"
                   : "border-gray-300 bg-white"
               }`}
+              data-testid="payment-method-cod"
             >
               <div
                 className={`w-5 h-5 border rounded-full flex justify-center items-center ${
