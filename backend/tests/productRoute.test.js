@@ -4,7 +4,6 @@ import productRouter from "../routes/productRoute";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
-// Set up in-memory MongoDB server
 let mongoServer;
 
 beforeAll(async () => {
@@ -25,23 +24,18 @@ afterAll(async () => {
 const app = express();
 app.use(express.json());
 
-// Mocking the upload middleware to simulate file upload during tests
 jest.mock("../middleware/multer", () => ({
   fields: jest.fn().mockImplementation(() => (req, res, next) => {
-    // Simulating the files being uploaded
     req.files = {
       image1: {
         originalname: "image1.jpg",
-        buffer: Buffer.from("image data"), // Simulating the file buffer
+        buffer: Buffer.from("image data"),
       },
     };
     next();
   }),
 }));
-
-// Mocking adminAuth middleware to skip authentication
 jest.mock("../middleware/adminAuth", () => jest.fn((req, res, next) => next()));
-
 app.use("/products", productRouter);
 
 describe("Product Routes", () => {
@@ -55,20 +49,17 @@ describe("Product Routes", () => {
         category: "Category",
         subCategory: "SubCategory",
         sizes: '["S", "M"]',
-        BestSell: "true", // or BestSell: true
+        BestSell: "true",
       })
       .set("Authorization", "Bearer testtoken");
 
-    console.log(response.body); // Log the response to inspect it
-
+    console.log(response.body);
     expect(response.status).toBe(200);
-    expect(response.body.success).toBe(true); // Check for true
+    expect(response.body.success).toBe(true);
     expect(response.body.message).toBe("Product Added");
   });
-
   it("should get the list of products", async () => {
     const res = await request(app).get("/products/list");
-
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("products");
     expect(res.body.products).toBeInstanceOf(Array);
