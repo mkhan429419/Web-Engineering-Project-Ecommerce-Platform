@@ -88,7 +88,7 @@ const Cart = () => {
                         icon={faTrash}
                         data-testid={`delete-icon-${product._id}-${size}`}
                         className="ml-2 text-red-600 cursor-pointer"
-                        data-testid={`cart-item-delete-${product._id}-${size}`}
+                       
                         onClick={() => {
                           deleteProductFromCart(product._id, size);
                         }}
