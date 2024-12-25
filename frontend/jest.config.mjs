@@ -1,13 +1,15 @@
 export default {
   transform: {
-    "^.+\\.(js|jsx)$": "babel-jest",  // Tells Jest to use babel-jest to transform .js and .jsx files
+    "^.+\\.(js|jsx|mjs)$": "babel-jest", // Ensure Jest transpiles ES modules
   },
-  testEnvironment: "jsdom",  // Jest uses jsdom as the test environment for testing React components
+  testEnvironment: "jsdom",
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.js"],
   moduleNameMapper: {
-    "\\.(css|less|scss|sass)$": "identity-obj-proxy",  // Mock CSS imports with identity-obj-proxy
+    "\\.(css|less|scss|sass)$": "identity-obj-proxy", // Mock CSS files
   },
   transformIgnorePatterns: [
-    "node_modules/(?!(axios)/)", // Tell Jest to transpile axios
+    "node_modules/(?!(axios|axios/lib)/)", // Transpile Axios and its submodules
   ],
+  testPathIgnorePatterns: ["<rootDir>/tests/e2e/"], // Ignore Playwright tests
+  moduleFileExtensions: ["js", "jsx", "mjs"],
 };
