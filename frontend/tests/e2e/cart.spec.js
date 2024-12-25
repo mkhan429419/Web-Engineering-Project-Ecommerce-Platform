@@ -138,7 +138,7 @@ test.describe("Cart Page Tests", () => {
     const totalAmount = page.locator("[data-testid='total-amount']");
 
     // Verify the total amount matches the expected calculation
-    await expect(totalAmount).toHaveText("Rs200.00");
+    await expect(totalAmount).toHaveText("Rs334.00");
   });
 
   test("should navigate to place order page on clicking place orders", async ({
