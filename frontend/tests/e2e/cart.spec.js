@@ -126,6 +126,12 @@ test.describe("Cart Page Tests", () => {
       "[data-testid='cart-item-row-6768ffd6ad9c9ad645022b9d-M']"
     );
     await expect(cartItems).toHaveCount(0);
+
+    const toastNotification = await page.locator(".Toastify__toast--success", {
+      hasText: "Item successfully removed from the cart",
+    });
+    await toastNotification.waitFor();
+    await expect(toastNotification).toBeVisible();
   });
 
   test("should calculate total price correctly", async ({ page }) => {
