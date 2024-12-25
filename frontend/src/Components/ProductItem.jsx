@@ -1,12 +1,13 @@
+import React from "react";
 import { useContext } from "react";
 import { ShopContext } from "../context/ShopContext";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-const ProductItem = ({ id, title, image, price}) => {
+
+const ProductItem = ({ id, title, image, price }) => {
   const { curr } = useContext(ShopContext);
   return (
     <div>
-
       <Link
         to={`/Product/${id}`}
         className="block m-3 p-2 border rounded-md shadow-md cursor-pointer hover:scale-105 transition-all"
@@ -28,8 +29,8 @@ const ProductItem = ({ id, title, image, price}) => {
         </div>
       </Link>
     </div>
-  )
-}
+  );
+};
 ProductItem.propTypes = {
   id: PropTypes.string.isRequired, // ID should be a number and is required
   title: PropTypes.string.isRequired, // Title should be a string and is required
@@ -37,4 +38,4 @@ ProductItem.propTypes = {
   price: PropTypes.string.isRequired, // Price should be a string and is required
 };
 
-export default ProductItem
+export default ProductItem;

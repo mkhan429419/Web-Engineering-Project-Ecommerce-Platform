@@ -1,7 +1,7 @@
+import React from "react";
 import { render, screen, act } from "@testing-library/react";
 import { createContext, useContext } from "react";
 import axios from "axios";
-import React from "react";
 
 jest.mock("axios");
 

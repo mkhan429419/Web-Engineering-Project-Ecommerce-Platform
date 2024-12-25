@@ -1,3 +1,4 @@
+import React from "react";
 import Total from "../Components/Total";
 import { useState, useContext } from "react";
 import { ShopContext } from "../context/ShopContext";

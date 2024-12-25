@@ -1,3 +1,4 @@
+import React from "react";
 import { ShopContext } from "../context/ShopContext";
 import { useContext } from "react";
 import PropTypes from "prop-types";

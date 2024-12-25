@@ -1,6 +1,7 @@
+import React from "react";
 import { render, screen } from "@testing-library/react";
 import Home from "./Home"; // Adjust the path as needed
-import React from "react";
+
 // Mock child components to isolate testing
 jest.mock("../Components/Hero", () => {
   const MockHero = () => <div>Hero Component</div>;
