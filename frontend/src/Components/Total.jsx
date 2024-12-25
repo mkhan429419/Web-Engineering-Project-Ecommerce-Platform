@@ -27,7 +27,7 @@ const Total = ({ deliveryCharges }) => {
       <hr />
       <div className="my-1 flex justify-between">
         <p>Total:</p>
-        <p>
+        <p data-testid="total-amount">
           {curr}
           {(parseFloat(totalAmount) + parseFloat(deliveryCharges)).toFixed(2)}
         </p>
