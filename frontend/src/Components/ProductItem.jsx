@@ -11,6 +11,7 @@ const ProductItem = ({ id, title, image, price }) => {
       <Link
         to={`/Product/${id}`}
         className="block m-3 p-2 border rounded-md shadow-md cursor-pointer hover:scale-105 transition-all"
+        data-testid={`product-${id}`}
       >
         <div className="relative">
           <img

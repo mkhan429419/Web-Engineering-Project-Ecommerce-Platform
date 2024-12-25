@@ -50,13 +50,13 @@ test.describe("Collection Page Tests", () => {
   });
 
   test("should display all products by default", async ({ page }) => {
-    const productItems = page.locator(
-      ".block.m-3.p-2.border.rounded-md.shadow-md"
-    );
-    // await expect(productItems).toHaveCount(3);
-    await expect(productItems.nth(0)).toContainText("Product A");
-    await expect(productItems.nth(1)).toContainText("Product B");
-    await expect(productItems.nth(2)).toContainText("Product C");
+    const productA = page.locator("[data-testid='product-prod1']");
+    const productB = page.locator("[data-testid='product-prod2']");
+    const productC = page.locator("[data-testid='product-prod3']");
+
+    await expect(productA).toContainText("Product A");
+    await expect(productB).toContainText("Product B");
+    await expect(productC).toContainText("Product C");
   });
 
   test("should filter products based on search query", async ({ page }) => {
