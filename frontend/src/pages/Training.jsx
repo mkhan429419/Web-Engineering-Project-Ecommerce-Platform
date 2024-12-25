@@ -1,3 +1,4 @@
+import React from "react";
 import business from "../assets/business.jpg";
 import market from "../assets/market.jpg";
 import financial from "../assets/financial.jpg";
