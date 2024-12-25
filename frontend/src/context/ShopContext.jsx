@@ -211,6 +211,12 @@ const ShopContextProvider = (props) => {
     }
   }, [token]);
 
+  useEffect(() => {
+    if (products.length > 0) {
+      findTotalAmount(cart);
+    }
+  }, [cart, products]);
+
   const value = {
     products,
     curr,
