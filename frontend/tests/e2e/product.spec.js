@@ -4,6 +4,10 @@ test.describe("Product Page Tests", () => {
   test.beforeEach(async ({ page }) => {
     console.log("Mock API called");
 
+    await page.addInitScript(() => {
+      window.localStorage.setItem("token", "mockToken123");
+    });
+
     // Mock API for product list
     await page.route("http://localhost:4000/api/product/list", (route) => {
       console.log("Intercepting API call to /api/product/list");
