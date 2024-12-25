@@ -11,7 +11,9 @@ const Cart = () => {
     useContext(ShopContext);
   const keys = Object.keys(cart);
   const findingProductsFromKeys = () => {
-    return products.filter((prod) => keys.includes(String(prod._id)));
+    return keys
+      .map((key) => products.find((prod) => prod._id === key))
+      .filter(Boolean);
   };
   const cartProducts = findingProductsFromKeys();
   return (
@@ -31,24 +33,42 @@ const Cart = () => {
                 return (
                   <div key={product._id + size}>
                     <div className="grid grid-cols-2 sm:grid-cols-5 text-lg gap-10 mt-5">
-                      <div className="flex justify-start col-span-2 gap-5">
+                      <div
+                        className="flex justify-start col-span-2 gap-5"
+                        data-testid={`cart-item-row-${product._id}-${size}`}
+                      >
                         <img
                           src={product.image}
                           className="rounded-md shadow-md"
                           alt={product.title}
-                        ></img>
+                          data-testid={`cart-item-image-${product._id}-${size}`}
+                        />
                         <div className="flex-col">
-                          <p>{product.category}</p>
-                          <p className="font-bold">{product.title}</p>
-                          <p>Size: {size}</p>
+                          <p
+                            data-testid={`cart-item-category-${product._id}-${size}`}
+                          >
+                            {product.category}
+                          </p>
+                          <p
+                            className="font-bold"
+                            data-testid={`cart-item-title-${product._id}-${size}`}
+                          >
+                            {product.title}
+                          </p>
+                          <p
+                            data-testid={`cart-item-size-${product._id}-${size}`}
+                          >
+                            Size: {size}
+                          </p>
                         </div>
                       </div>
                       <p className="ml-8">
                         <input
                           type="number"
                           min={1}
-                          defaultValue={cart[product._id][size]}
+                          value={cart[product._id][size]}
                           className="w-full md:w-20 border-2 border-black rounded-sm p-1"
+                          data-testid={`quantity-input-${product._id}-${size}`}
                           onChange={(e) =>
                             updateQuantity(
                               product._id,
@@ -58,13 +78,17 @@ const Cart = () => {
                           }
                         />
                       </p>
-                      <p className="font-bold">
+                      <p
+                        className="font-bold"
+                        data-testid={`cart-item-price-${product._id}-${size}`}
+                      >
                         {curr}.{product.price.toString()}
                       </p>
                       <FontAwesomeIcon
                         icon={faTrash}
                         data-testid={`delete-icon-${product._id}-${size}`}
                         className="ml-2 text-red-600 cursor-pointer"
+                        data-testid={`cart-item-delete-${product._id}-${size}`}
                         onClick={() => {
                           deleteProductFromCart(product._id, size);
                         }}
