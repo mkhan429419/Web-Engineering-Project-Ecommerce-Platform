@@ -1,12 +1,10 @@
-import { render, screen } from "@testing-library/react";
-import { act } from "react-dom/test-utils";
+import { render, screen, act } from "@testing-library/react";
 import { createContext, useContext } from "react";
 import axios from "axios";
+import React from "react";
 
-// Mock axios
 jest.mock("axios");
 
-// Create a mock ShopContext
 const ShopContext = createContext();
 const mockSetProducts = jest.fn();
 
@@ -30,8 +28,17 @@ const MockShopContextProvider = ({ children }) => {
     <ShopContext.Provider value={mockValue}>{children}</ShopContext.Provider>
   );
 };
-
+const MockConsumer = () => {
+  const { getProductsData } = useContext(ShopContext);
+  React.useEffect(() => {
+    getProductsData();
+  }, [getProductsData]);
+  return <div>Consumer Component</div>;
+};
 describe("ShopContext API Requests", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
   it("fetches product list and updates context", async () => {
     const mockedProducts = [
       {
@@ -53,63 +60,31 @@ describe("ShopContext API Requests", () => {
         image: ["https://via.placeholder.com/150?text=Product2"],
       },
     ];
-
-    // Mock API response
     axios.get.mockResolvedValueOnce({
       data: { success: true, products: mockedProducts },
     });
-
-    // Render the provider
     render(
       <MockShopContextProvider>
         <MockConsumer />
       </MockShopContextProvider>
     );
-
-    // Act: Call getProductsData
-    await act(async () => {
-      const context = useContext(ShopContext);
-      await context.getProductsData();
-    });
-
-    // Verify axios was called correctly
+    await act(async () => {});
     expect(axios.get).toHaveBeenCalledWith(
       "http://localhost:4000/api/product/list"
     );
-
-    // Verify mockSetProducts was called with the mocked products
     expect(mockSetProducts).toHaveBeenCalledWith(mockedProducts);
   });
-
   it("handles API error gracefully", async () => {
-    // Mock API error
     axios.get.mockRejectedValueOnce(new Error("API Error"));
-
-    // Render the provider
     render(
       <MockShopContextProvider>
         <MockConsumer />
       </MockShopContextProvider>
     );
-
-    // Act: Call getProductsData
-    await act(async () => {
-      const context = useContext(ShopContext);
-      await context.getProductsData();
-    });
-
-    // Ensure axios was called
+    await act(async () => {});
     expect(axios.get).toHaveBeenCalledWith(
       "http://localhost:4000/api/product/list"
     );
-
-    // Ensure error handling was triggered (mockSetProducts should not be called)
     expect(mockSetProducts).not.toHaveBeenCalled();
   });
 });
-
-// Helper component to use context
-const MockConsumer = () => {
-  const context = useContext(ShopContext);
-  return <div>{JSON.stringify(context.products)}</div>;
-};
