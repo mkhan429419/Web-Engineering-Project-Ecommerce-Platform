@@ -1,19 +1,17 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Training from "../src/pages/Training"; // Update the path to your Training component
+import Training from "../src/pages/Training";
 
-jest.mock("../src/assets/business.jpg", () => "business.jpg"); // Mock images
-jest.mock("../src/assets/market.jpg", () => "market.jpg");
-jest.mock("../src/assets/financial.jpg", () => "financial.jpg");
+jest.mock("../src/assets/sc/22.jpg", () => "mocked-crafting.jpg");
+jest.mock("../src/assets/sc/23.jpg", () => "mocked-marketing.jpg");
+jest.mock("../src/assets/sc/24.jpg", () => "mocked-packaging.jpg");
 
 describe("Training Component", () => {
   it("renders the quote section", () => {
     render(<Training />);
-    const quote = screen.getByText(
-      "“You educate a man; you educate a man. You educate a woman; you educate a generation.”"
-    );
-    const author = screen.getByText("― Brigham Young");
+    const quote = screen.getByText("“Every artist was first an amateur.”");
+    const author = screen.getByText("― Ralph Waldo Emerson");
     expect(quote).toBeInTheDocument();
     expect(author).toBeInTheDocument();
   });
@@ -21,9 +19,9 @@ describe("Training Component", () => {
   it("renders all course cards", () => {
     render(<Training />);
     const courseTitles = [
-      "Basic Business Skills",
-      "Online Marketplace Setup",
-      "Financial Literacy",
+      "Crafting Essentials",
+      "Selling Handmade Goods",
+      "Eco-Friendly Packaging",
     ];
     courseTitles.forEach((title) => {
       const courseCard = screen.getByText(title);
@@ -34,9 +32,9 @@ describe("Training Component", () => {
   it("renders course descriptions and links", () => {
     render(<Training />);
     const courseDescriptions = [
-      "Learn the fundamentals of running a business in a rural setting. From marketing to finance, this course covers everything.",
-      "This training helps you set up an online marketplace and start selling your products globally.",
-      "Gain knowledge on how to manage finances, investment, and savings in a small business environment.",
+      "Master the fundamentals of creating handmade goods, from selecting materials to learning essential crafting techniques.",
+      "Learn how to market and sell your handmade products on platforms like Etsy, Instagram, and your own e-commerce website.",
+      "Discover innovative ways to package your products sustainably while creating an unforgettable unboxing experience.",
     ];
     courseDescriptions.forEach((desc) => {
       const description = screen.getByText(desc);
@@ -44,7 +42,7 @@ describe("Training Component", () => {
     });
 
     const links = screen.getAllByRole("link");
-    expect(links.length).toBe(3); // Ensure there are exactly 3 "Learn More" links
+    expect(links.length).toBe(3);
     links.forEach((link) => {
       expect(link).toHaveAttribute("href");
       expect(link).toHaveClass("text-pink-500");
@@ -54,9 +52,9 @@ describe("Training Component", () => {
   it("renders all course images with proper alt attributes", () => {
     render(<Training />);
     const images = [
-      { src: "business.jpg", alt: "Course 1" },
-      { src: "market.jpg", alt: "Course 2" },
-      { src: "financial.jpg", alt: "Course 3" },
+      { src: "mocked-crafting.jpg", alt: "Crafting Skills" },
+      { src: "mocked-marketing.jpg", alt: "Marketing Skills" },
+      { src: "mocked-packaging.jpg", alt: "Packaging Skills" },
     ];
 
     images.forEach(({ src, alt }) => {
@@ -66,8 +64,12 @@ describe("Training Component", () => {
     });
   });
 
- 
-
-  
-
+  it("renders the course videos", () => {
+    render(<Training />);
+    const videos = screen.getAllByTestId("course-video");
+    expect(videos.length).toBe(2);
+    videos.forEach((video) => {
+      expect(video).toHaveAttribute("controls");
+    });
+  });
 });
