@@ -33,38 +33,58 @@ const Navbar = () => {
       <div className="flex flex-wrap justify-center md:justify-between items-baseline py-5 px-5">
         <NavLink to="/">
           <h1 className="text-3xl font-bold text-black">
-            Women<span className="text-[var(--Pink)]">Power</span>
+            <span className="text-[var(--Pink)]">Craftsy</span>
           </h1>
         </NavLink>
 
         <ul className="hidden h-full gap-12 lg:flex">
           <NavLink
             to="/"
-            className="text-lg cursor-pointer pb-1.5 transition-all hover:font-bold text-[var(--Pink)]"
+            className={({ isActive }) =>
+              `text-lg cursor-pointer pb-1.5 transition-all hover:font-bold text-[var(--Pink)] ${
+                isActive ? "border-b-2 border-[var(--Pink)]" : ""
+              }`
+            }
           >
             <li>Home</li>
           </NavLink>
           <NavLink
             to="/Collection"
-            className="text-lg cursor-pointer pb-1.5 transition-all hover:font-bold text-[var(--Pink)]"
+            className={({ isActive }) =>
+              `text-lg cursor-pointer pb-1.5 transition-all hover:font-bold text-[var(--Pink)] ${
+                isActive ? "border-b-2 border-[var(--Pink)]" : ""
+              }`
+            }
           >
             <li>Collection</li>
           </NavLink>
           <NavLink
             to="/About"
-            className="text-lg cursor-pointer pb-1.5 transition-all hover:font-bold text-[var(--Pink)]"
+            className={({ isActive }) =>
+              `text-lg cursor-pointer pb-1.5 transition-all hover:font-bold text-[var(--Pink)] ${
+                isActive ? "border-b-2 border-[var(--Pink)]" : ""
+              }`
+            }
           >
             <li>About</li>
           </NavLink>
           <NavLink
             to="/Training"
-            className="text-lg cursor-pointer pb-1.5 transition-all hover:font-bold text-[var(--Pink)]"
+            className={({ isActive }) =>
+              `text-lg cursor-pointer pb-1.5 transition-all hover:font-bold text-[var(--Pink)] ${
+                isActive ? "border-b-2 border-[var(--Pink)]" : ""
+              }`
+            }
           >
             <li>Trainers</li>
           </NavLink>
           <NavLink
             to="/Contact"
-            className="text-lg cursor-pointer pb-1.5 transition-all hover:font-bold text-[var(--Pink)]"
+            className={({ isActive }) =>
+              `text-lg cursor-pointer pb-1.5 transition-all hover:font-bold text-[var(--Pink)] ${
+                isActive ? "border-b-2 border-[var(--Pink)]" : ""
+              }`
+            }
           >
             <li>Contact</li>
           </NavLink>

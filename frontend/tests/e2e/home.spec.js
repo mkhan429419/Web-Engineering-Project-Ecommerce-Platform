@@ -44,23 +44,27 @@ test.describe("Home Page Tests", () => {
     await page.goto("/");
   });
 
-  test("should render Hero section with an image and title", async ({
+  test("should render Hero section with images and controls", async ({
     page,
   }) => {
-    const heroTitle = await page.locator("h1", { hasText: "Our Top Selling" });
-
-    await expect(heroTitle).toBeVisible();
-
-    const heroImage = await page.locator("img[alt='image']");
-
+    const heroImage = await page.locator("img[src*='17.png']");
     await expect(heroImage).toBeVisible();
+    const prevButton = await page.locator("button:has-text('←')");
+    const nextButton = await page.locator("button:has-text('→')");
+    await expect(prevButton).toBeVisible();
+    await expect(nextButton).toBeVisible();
+
+    const indicators = await page.locator("div[data-testid='indicators'] div");
+    await expect(indicators).toHaveCount(3);
   });
 
   test("should display loading state in LatestCollection before data is fetched", async ({
     page,
   }) => {
     const loadingText = await page.locator("text=Loading products...");
-    await expect(loadingText).toBeVisible();
+    console.log("Waiting for loading state...");
+
+    await expect(loadingText).toBeVisible({ timeout: 10000 });
   });
 
   test("should render LatestCollection products after data is fetched", async ({

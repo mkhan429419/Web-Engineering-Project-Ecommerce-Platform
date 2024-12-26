@@ -14,8 +14,8 @@ const Add = ({ token }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("Men");
-  const [subCategory, setSubCategory] = useState("Topwear");
+  const [category, setCategory] = useState("men");
+  const [subCategory, setSubCategory] = useState("Tops");
   const [BestSell, setBestSell] = useState(false);
   const [sizes, setSizes] = useState([]);
 
@@ -30,13 +30,26 @@ const Add = ({ token }) => {
       formData.append("price", price);
       formData.append("category", category);
       formData.append("subCategory", subCategory);
-      formData.append("bestseller", BestSell);
+      formData.append("BestSell", BestSell);
       formData.append("sizes", JSON.stringify(sizes));
 
       image1 && formData.append("image1", image1);
       image2 && formData.append("image2", image2);
       image3 && formData.append("image3", image3);
       image4 && formData.append("image4", image4);
+
+      // Log the product data
+      console.log("Product being sent to backend:");
+      console.log({
+        title,
+        description,
+        price,
+        category,
+        subCategory,
+        bestseller: BestSell,
+        sizes,
+        images: [image1, image2, image3, image4],
+      });
 
       const response = await axios.post(
         backendUrl + "/api/product/add",
@@ -152,10 +165,22 @@ const Add = ({ token }) => {
 
       <div className="flex flex-col sm:flex-row gap-2 w-full sm:gap-8">
         <div>
-          <p className="mb-2">Product category</p>
           <select
             onChange={(e) => setCategory(e.target.value)}
             className="w-full px-3 py-2"
+            value={category}
+          >
+            <option value="Tops">Tops</option>
+            <option value="Bottoms">Bottoms</option>
+            <option value="Hoodies">Hoodies</option>
+            <option value="Shirts">Shirts</option>
+          </select>
+        </div>
+        <div>
+          <select
+            onChange={(e) => setSubCategory(e.target.value)}
+            className="w-full px-3 py-2"
+            value={subCategory}
           >
             <option value="Men">Men</option>
             <option value="Women">Women</option>
@@ -164,20 +189,6 @@ const Add = ({ token }) => {
         </div>
 
         <div>
-          <p className="mb-2">Sub category</p>
-          <select
-            onChange={(e) => setSubCategory(e.target.value)}
-            className="w-full px-3 py-2"
-          >
-            <option value="Tops">Tops</option>
-            <option value="Bottoms">Bottoms</option>
-            <option value="Hoodies">Hoodies</option>
-            <option value="Shirts">Shirts</option>
-          </select>
-        </div>
-
-        <div>
-          <p className="mb-2">Product Price</p>
           <input
             onChange={(e) => setPrice(e.target.value)}
             value={price}
@@ -285,7 +296,12 @@ const Add = ({ token }) => {
 
       <div className="flex gap-2 mt-2">
         <input
-          onChange={() => setBestSell((prev) => !prev)}
+          onChange={() => {
+            setBestSell((prev) => {
+              console.log("Previous BestSell:", prev);
+              return !prev;
+            });
+          }}
           checked={BestSell}
           type="checkbox"
           id="bestseller"
