@@ -14,7 +14,7 @@ const Footer = () => {
       <div className="flex flex-col lg:flex-row justify-between gap-10 px-10 lg:px-20 py-20 w-full ">
         <div className="flex-grow text-center lg:text-left">
           <h1 className="text-3xl font-bold text-black">
-            Women<span className="text-[var(--Pink)]">Power</span>
+            <span className="text-[var(--Pink)]">Craftsy</span>
           </h1>
         </div>
         <div className="flex flex-col gap-3 flex-grow text-center lg:text-left">
@@ -60,7 +60,7 @@ const Footer = () => {
               +222-899-22233
             </h2>
             <h2 className="hover:translate-x-2 text-gray-600 hover:text-black transition duration-300">
-              womenpower@gmail.com
+              craftsy@gmail.com
             </h2>
           </div>
           <div className="flex gap-3 flex-grow justify-center lg:justify-start">
@@ -100,7 +100,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="text-center text-gray-600 ">
-        <h4>Copyright 2024@womenpower.com-All Rights Reserved</h4>
+        <h4>Copyright 2024@craftsy.com-All Rights Reserved</h4>
       </div>
     </div>
   );

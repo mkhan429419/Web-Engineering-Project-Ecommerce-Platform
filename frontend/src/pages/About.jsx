@@ -1,85 +1,105 @@
 import React from "react";
-import sample from "../assets/sample.png";
+import picture from "../assets/sc/21.png";
 import NewsLetter from "../Components/NewsLetter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faExchange,
-  faFileContract,
-  faShippingFast,
-  faLock,
+  faLeaf,
+  faSmile,
+  faHandHoldingHeart,
+  faRecycle,
 } from "@fortawesome/free-solid-svg-icons";
+
 const Services = [
   {
-    heading: "Fast Shipping",
+    heading: "Ethically Handmade",
     description:
-      "Get your orders delivered swiftly with our expedited shipping services.",
-    icon: faExchange,
+      "Every product is lovingly handcrafted with care and attention to detail.",
+    icon: faHandHoldingHeart,
   },
   {
-    heading: "Secure Payments",
+    heading: "Eco-Friendly",
     description:
-      "Enjoy safe and hassle-free transactions with encrypted payment options.",
-    icon: faShippingFast,
+      "Our commitment to sustainability ensures minimal impact on the environment.",
+    icon: faLeaf,
   },
   {
-    heading: "24/7 Customer Support",
+    heading: "Personalized Experience",
     description:
-      "Our support team is available round-the-clock to assist you with any queries.",
-    icon: faLock,
+      "Get custom-made items tailored to your preferences for a truly unique experience.",
+    icon: faSmile,
   },
   {
-    heading: "Easy Returns",
+    heading: "Recyclable Packaging",
     description:
-      "Hassle-free returns and exchanges to ensure your complete satisfaction.",
-    icon: faFileContract,
+      "We use eco-conscious packaging that’s easy to recycle and kind to the planet.",
+    icon: faRecycle,
   },
 ];
+
 const About = () => {
   return (
     <div className="flex flex-col justify-center items-center w-full">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 w-[90%] max-w-[1200px]">
+      {/* About Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 w-[90%] max-w-[1200px] my-10">
         <div className="flex justify-center items-center">
-          <img src={sample} className="max-h-96 object-contain" alt="Sample" />
+          <img
+            src={picture}
+            className="max-h-96 object-contain rounded-md shadow-md"
+            alt="Sample"
+          />
         </div>
         <div className="flex flex-col justify-center items-start">
-          <h1 className="text-3xl font-semibold mb-5 text-[var(--Brown)]">
-            We are an ecommerce site
+          <h1 className="text-4xl font-semibold mb-5 text-[var(--Brown)]">
+            About Craftsy
           </h1>
-          <p className="text-justify text-lg text-[var(--Brown)] mb-10 ">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
-            reprehenderit, quidem alias consequatur quia, aliquid perspiciatis
-            modi voluptas, saepe repellendus quo in odit at deserunt et dolorum
-            asperiores corrupti eum.
+          <p className="text-justify text-lg text-[var(--Brown)] mb-10">
+            At <strong>Craftsy</strong>, we believe in the magic of
+            craftsmanship. Our mission is to bring you a collection of unique,
+            high-quality, and sustainable handmade products. Each creation is a
+            testament to the skill and dedication of talented artisans who pour
+            their hearts into every piece.
+          </p>
+          <p className="text-justify text-lg text-[var(--Brown)]">
+            By supporting <strong>Craftsy</strong>, you are joining a movement
+            that values creativity, individuality, and community empowerment.
+            Together, we are making a positive impact on the environment and
+            uplifting local businesses. Discover the charm of handmade products
+            with <strong>Craftsy</strong>.
           </p>
         </div>
       </div>
+
+      {/* Services Section */}
       <div className="bg-[var(--Light)] w-full">
         <h1 className="font-bold text-3xl text-center text-[var(--Brown)] py-10">
-          Our Services
+          Why Choose Craftsy?
         </h1>
-        <div className="grid grid-cols md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
           {Services.map((service, index) => {
             return (
               <div
                 key={index}
-                className="block m-3 p-2 border rounded-md shadow-md cursor-pointer hover:scale-105 transition-all text-center"
+                className="block m-3 p-4 border rounded-md shadow-md cursor-pointer hover:scale-105 transition-all text-center"
               >
-                <div className="p-4 e">
-                  <div className="bg-white rounded-full w-20 justify-self-center h-20 flex justify-center items-center">
-                    <FontAwesomeIcon icon={service.icon} className="h-7" />
+                <div className="p-4">
+                  <div className="bg-white rounded-full w-20 h-20 flex justify-center items-center mx-auto mb-4">
+                    <FontAwesomeIcon
+                      icon={service.icon}
+                      className="h-8 text-[var(--Brown)]"
+                    />
                   </div>
-                  <h2 className="text-lg font-semibold text-gray-700">
+                  <h2 className="text-lg font-semibold text-gray-700 mb-2">
                     {service.heading}
                   </h2>
-                  <h2 className="text-md text-gray-600 mt-2">
-                    {service.description}
-                  </h2>
+                  <p className="text-md text-gray-600">{service.description}</p>
                 </div>
               </div>
             );
-          })}{" "}
+          })}
         </div>
       </div>
+
+      {/* Newsletter Section */}
       <NewsLetter />
     </div>
   );
