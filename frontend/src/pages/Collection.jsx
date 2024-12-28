@@ -91,7 +91,7 @@ const Collection = () => {
             <option value={"Bottoms"}>BOTTOMS</option>
             <option value={"Tops"}>TOPS</option>
             <option value={"Shirts"}>SHIRTS</option>
-            <option value={"Hoodie"}>HOODIES</option>
+            <option value={"Hoodies"}>HOODIES</option>
           </select>
           <select
             className="bg-[var(--Light)] md:pr-10 md:pl-2 text-[var(--Yellow)] border border-gray-400 rounded-md"

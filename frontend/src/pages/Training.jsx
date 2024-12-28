@@ -96,38 +96,39 @@ const Training = () => {
 
       {/* Course Videos */}
       <div className="my-16">
-        <h2 className="text-3xl text-center mb-6 font-semibold">
-          Course Videos
-        </h2>
-        <div className="flex justify-center space-x-8">
-          <div className="card bg-gray-200 rounded-lg shadow-md overflow-hidden">
-            <video
-              data-testid="course-video"
-              className="h-full w-full rounded-lg"
-              controls
-            >
-              <source
-                src="https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/BlTHC8iPiqt683o5/five-business-coworkers-walking-towards-the-business-center-friendly-talking-to-each-other_s0zjotyajl__66641a2206e05eb484f77895e433f512__P360.mp4"
-                type="video/mp4"
-              />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-          <div className="card bg-gray-200 rounded-lg shadow-md overflow-hidden">
-            <video
-              data-testid="course-video"
-              className="h-full w-full rounded-lg"
-              controls
-            >
-              <source
-                src="https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/r9E0QYuleiv25jmq9/videoblocks-the-business-people-sitting-at-the-table-and-discuss_rkgsahahi__fffcb2b352af8609b372293939aaf983__P360.mp4"
-                type="video/mp4"
-              />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      </div>
+  <h2 className="text-3xl text-center mb-6 font-semibold">Course Videos</h2>
+  <div className="flex flex-wrap justify-center gap-8">
+    <div className="card bg-gray-200 rounded-lg shadow-md overflow-hidden w-80 h-48">
+      <video
+        data-testid="course-video"
+        className="h-full w-full rounded-lg object-cover"
+        controls
+      >
+        <source
+          src="https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/BlTHC8iPiqt683o5/five-business-coworkers-walking-towards-the-business-center-friendly-talking-to-each-other_s0zjotyajl__66641a2206e05eb484f77895e433f512__P360.mp4"
+          type="video/mp4"
+        />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div className="card bg-gray-200 rounded-lg shadow-md overflow-hidden w-80 h-48">
+      <video
+        data-testid="course-video"
+        className="h-full w-full rounded-lg object-cover"
+        controls
+      >
+        <source
+          src="https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/r9E0QYuleiv25jmq9/videoblocks-the-business-people-sitting-at-the-table-and-discuss_rkgsahahi__fffcb2b352af8609b372293939aaf983__P360.mp4"
+          type="video/mp4"
+        />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</div>
+
+       
+      
     </div>
   );
 };

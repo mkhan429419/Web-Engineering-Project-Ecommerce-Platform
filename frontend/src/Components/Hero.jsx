@@ -25,9 +25,10 @@ const Hero = () => {
   };
 
   return (
-    <div className="flex bg-[var(--Light)] flex-col sm:flex-row p-4">
+    <div className="flex bg-[var(--Light)] flex-col p-4">
       <div className="w-full relative">
-        <div className="w-full h-[650px] overflow-hidden">
+        {/* Slider Container */}
+        <div className="w-full h-[300px] sm:h-[450px] md:h-[650px] overflow-hidden">
           <div
             className="flex transition-transform duration-500"
             style={{
@@ -49,18 +50,22 @@ const Hero = () => {
             ))}
           </div>
         </div>
+
+        {/* Navigation Buttons */}
         <button
           onClick={handlePrev}
-          className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-[var(--LightBrown)] text-white p-2 rounded-full"
+          className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-[var(--LightBrown)] text-white p-2 rounded-full shadow-md"
         >
           &larr;
         </button>
         <button
           onClick={handleNext}
-          className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-[var(--LightBrown)] text-white p-2 rounded-full"
+          className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-[var(--LightBrown)] text-white p-2 rounded-full shadow-md"
         >
           &rarr;
         </button>
+
+        {/* Indicators */}
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
           {slides.map((_, index) => (
             <div

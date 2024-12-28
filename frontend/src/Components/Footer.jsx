@@ -9,51 +9,52 @@ import {
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const handleScrollUp = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Smooth scrolling effect
+    });
+  };
   return (
     <div className="bg-[var(--LightBrown)] py-10 sticky top-[100vh]">
       <div className="flex flex-col lg:flex-row justify-between gap-10 px-10 lg:px-20 py-20 w-full ">
         <div className="flex-grow text-center lg:text-left">
-          <h1 className="text-3xl font-bold text-black">
+          <h1 className="text-3xl font-bold">
             <span className="text-[var(--Pink)]">Craftsy</span>
           </h1>
         </div>
-        <div className="flex flex-col gap-3 flex-grow text-center lg:text-left">
-          <h1 className="text-lg font-bold underline decoration-3 decoration-[var(--Pink)] underline-offset-8">
-            Company
-          </h1>
-          <h2 className="hover:translate-x-2 text-gray-600 hover:text-black transition duration-300">
-            <Link to="/">Home</Link>
-          </h2>
-          <h2 className="hover:translate-x-2 text-gray-600 hover:text-black transition duration-300">
-            <Link to="/">About Us</Link>
-          </h2>
-          <h2 className="hover:translate-x-2 text-gray-600 hover:text-black transition duration-300">
-            <Link to="/">Training</Link>
-          </h2>
-          <h2 className="hover:translate-x-2 text-gray-600 hover:text-black transition duration-300">
-            <Link to="/">Collections</Link>
-          </h2>
-        </div>
+
         <div className="flex flex-col gap-3 flex-grow text-center lg:text-left">
           <h1 className="text-lg font-bold underline decoration-3 decoration-[var(--Pink)] underline-offset-8">
             Quick Links
           </h1>
-          <h2 className="hover:translate-x-2 text-gray-600 hover:text-black transition duration-300">
+          <h2
+            className="hover:translate-x-2 text-gray-600 hover:text-black transition duration-300"
+            onClick={handleScrollUp}
+          >
             <Link to="/">Home</Link>
           </h2>
-          <h2 className="hover:translate-x-2 text-gray-600 hover:text-black transition duration-300">
-            <Link to="/">About Us</Link>
+          <h2
+            className="hover:translate-x-2 text-gray-600 hover:text-black transition duration-300"
+            onClick={handleScrollUp}
+          >
+            <Link to="/About">About Us</Link>
+          </h2>
+          <h2
+            className="hover:translate-x-2 text-gray-600 hover:text-black transition duration-300"
+            onClick={handleScrollUp}
+          >
+            <Link to="/Training">Training</Link>
           </h2>
           <h2 className="hover:translate-x-2 text-gray-600 hover:text-black transition duration-300">
-            <Link to="/">Training</Link>
-          </h2>
-          <h2 className="hover:translate-x-2 text-gray-600 hover:text-black transition duration-300">
-            <Link to="/">Collections</Link>
+            <Link to="/Collection" onClick={handleScrollUp}>
+              Collections
+            </Link>
           </h2>
         </div>
         <div className="flex flex-col gap-3 flex-grow text-center lg:text-left">
           <h1 className="text-lg font-bold underline decoration-3 decoration-[var(--Pink)] underline-offset-8">
-            Contact Us
+          <Link to="/Contact" onClick={handleScrollUp}>Contact Us </Link>
           </h1>
           <div>
             <h2 className="hover:translate-x-2 text-gray-600 hover:text-black transition duration-300">
@@ -105,4 +106,5 @@ const Footer = () => {
     </div>
   );
 };
+
 export default Footer;
