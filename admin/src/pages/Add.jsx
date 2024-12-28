@@ -202,9 +202,10 @@ const Add = ({ token }) => {
             onChange={(e) => setCategory(e.target.value)}
             className="w-full px-4 py-2 border rounded-md border-lightBrown"
           >
-            <option value="Men">Men</option>
-            <option value="Women">Women</option>
-            <option value="Kids">Kids</option>
+            <option value="Tops">Tops</option>
+            <option value="Bottoms">Bottoms</option>
+            <option value="Hoodies">Hoodies</option>
+            <option value="Shirts">Shirts</option>
           </select>
           {errors.category && (
             <p className="text-red-500 text-sm">{errors.category}</p>
@@ -220,10 +221,9 @@ const Add = ({ token }) => {
             onChange={(e) => setSubCategory(e.target.value)}
             className="w-full px-4 py-2 border rounded-md border-lightBrown"
           >
-            <option value="Tops">Tops</option>
-            <option value="Bottoms">Bottoms</option>
-            <option value="Hoodies">Hoodies</option>
-            <option value="Shirts">Shirts</option>
+            <option value="Men">Men</option>
+            <option value="Women">Women</option>
+            <option value="Kids">Kids</option>
           </select>
           {errors.subCategory && (
             <p className="text-red-500 text-sm">{errors.subCategory}</p>
