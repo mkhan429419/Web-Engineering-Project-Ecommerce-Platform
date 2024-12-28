@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const Contact = () => {
   const [errors, setErrors] = useState({});
@@ -13,6 +14,7 @@ const Contact = () => {
     country: "",
     phone: "",
   });
+  const [submitted, setSubmitted] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -45,10 +47,45 @@ const Contact = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Form Submitted Successfully", formValues);
+      try {
+        const response = await fetch("http://localhost:4000/api/user/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formValues),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          console.log("Form Submitted Successfully:", data);
+          toast.success("Contact Form submitted!", {
+            position: "top-right",
+            autoClose: 2000,
+          });
+          setSubmitted(true); // Set the submitted state to true
+          setFormValues({
+            fname: "",
+            lname: "",
+            email: "",
+            street: "",
+            city: "",
+            state: "",
+            zipcode: "",
+            country: "",
+            phone: "",
+          }); // Clear form fields
+        } else {
+          console.error("Failed to submit form:", data.message);
+          toast.error(data.message);
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        toast.error(error.message);
+      }
     }
   };
 
@@ -104,7 +141,7 @@ const Contact = () => {
             ))}
             <button
               type="submit"
-              className="lg:col-span-2 bg-[var(--Pink)] text-white font-bold py-2 px-4 rounded-md hover:bg-[var(--DarkPink)]"
+              className="lg:col-span-2 bg-[var(--Pink)] text-white font-bold py-2 px-4 rounded-md"
             >
               Submit
             </button>
