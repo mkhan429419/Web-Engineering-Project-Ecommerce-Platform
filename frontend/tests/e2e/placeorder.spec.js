@@ -91,7 +91,7 @@ test.describe("Place Order Page Tests", () => {
 
     // Verify error toast for missing shipping details
     await expect(page.locator(".Toastify__toast--error")).toHaveText(
-      "Please fill in all shipping details."
+      "Please fill in all valid shipping details."
     );
   });
 

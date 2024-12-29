@@ -78,7 +78,7 @@ const Product = () => {
           </h1>
           <hr />
           <p className="py-2 text-gray-600 text-lg" data-testid="product-price">
-            {`${curr}${isData.price}`}
+            {`${curr}.${isData.price}`}
           </p>
 
           <p className="py-2 text-gray-600 text-md">

@@ -64,7 +64,7 @@ describe("Product Page", () => {
     );
 
     // Match price in a single node
-    expect(screen.getByTestId("product-price")).toHaveTextContent("Rs100");
+    expect(screen.getByTestId("product-price")).toHaveTextContent("Rs.100");
   });
 
   test("renders similar products", async () => {
