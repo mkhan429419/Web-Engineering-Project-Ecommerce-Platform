@@ -6,6 +6,7 @@ export default {
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.js"], // Jest setup file
   moduleNameMapper: {
     "\\.(css|less|scss|sass)$": "identity-obj-proxy", // Mock CSS modules
+    "\\.(mp4|webm)$": "<rootDir>/__mocks__/fileMock.js",
   },
   transformIgnorePatterns: [
     "node_modules/(?!(axios)/)", // Transpile ESM dependencies like Axios

@@ -50,7 +50,7 @@ const StorePolicy = () => {
                 <h2 className="text-lg font-semibold text-gray-700">
                   {policy.heading}
                 </h2>
-                <h2 className="text-sm text-gray-600 mt-2">
+                <h2 className="text-md text-gray-600 mt-2">
                   {policy.description}
                 </h2>
               </div>
