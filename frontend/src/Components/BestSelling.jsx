@@ -1,6 +1,7 @@
-import {useContext, useEffect, useState} from 'react'
-import { ShopContext } from '../context/ShopContext'
-import ProductItem from './ProductItem';
+import React from "react";
+import { useContext, useEffect, useState } from "react";
+import { ShopContext } from "../context/ShopContext";
+import ProductItem from "./ProductItem";
 
 const BestSelling = () => {
   const { products } = useContext(ShopContext);
@@ -11,14 +12,13 @@ const BestSelling = () => {
     setbestSelling(best.slice(0, 4));
   }, [products]);
 
-    useEffect(() => {
-        const best =products.filter((item)=>item.BestSell === true);
-        setbestSelling(best.slice(0, 4)); 
-    }, [products]);
+  useEffect(() => {
+    const best = products.filter((item) => item.BestSell === true);
+    setbestSelling(best.slice(0, 4));
+  }, [products]);
 
-    
   return (
-    <div className="bg-[var(--Light)]">
+    <div className="bg-[var(--Light)]" data-testid="best-selling">
       <h1 className="font-bold text-3xl text-center text-[var(--Brown)] py-10">
         Best Selling
       </h1>
@@ -36,7 +36,7 @@ const BestSelling = () => {
         })}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BestSelling
+export default BestSelling;
