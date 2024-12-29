@@ -12,8 +12,8 @@ const transporter = nodemailer.createTransport({
     user: "pakhtar635@gmail.com",
     pass: "vzdg ycuy wrei vdrg",
   },
-  debug: true, // Enable debugging
-  logger: true,
+  debug: false,
+  logger: false,
 });
 
 transporter.verify((error, success) => {

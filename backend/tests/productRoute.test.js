@@ -3,6 +3,15 @@ import express from "express";
 import productRouter from "../routes/productRoute";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
+import { v2 as cloudinary } from "cloudinary";
+
+jest.mock("cloudinary", () => ({
+  v2: {
+    uploader: {
+      upload: jest.fn(),
+    },
+  },
+}));
 
 let mongoServer;
 
@@ -18,28 +27,39 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await mongoose.disconnect();
-  await mongoServer.stop();
+  if (mongoServer) await mongoServer.stop();
 });
 
 const app = express();
 app.use(express.json());
 
-jest.mock("../middleware/multer", () => ({
-  fields: jest.fn().mockImplementation(() => (req, res, next) => {
-    req.files = {
-      image1: {
-        originalname: "image1.jpg",
-        buffer: Buffer.from("image data"),
-      },
+// Mock Multer Middleware
+jest.mock("../middleware/multer", () => {
+  return jest.fn((req, res, next) => {
+    req.file = {
+      originalname: "image1.jpg",
+      path: "test-image-path.jpg", // Mocked file path
     };
     next();
-  }),
-}));
+  });
+});
+
+// Mock Admin Auth Middleware
 jest.mock("../middleware/adminAuth", () => jest.fn((req, res, next) => next()));
+
 app.use("/products", productRouter);
 
 describe("Product Routes", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("should add a product", async () => {
+    // Mock Cloudinary upload
+    cloudinary.uploader.upload.mockResolvedValue({
+      secure_url: "https://cloudinary.com/test-image.jpg",
+    });
+
     const response = await request(app)
       .post("/products/add")
       .send({
@@ -53,11 +73,18 @@ describe("Product Routes", () => {
       })
       .set("Authorization", "Bearer testtoken");
 
-    console.log(response.body);
+    // Assertions
     expect(response.status).toBe(200);
     expect(response.body.success).toBe(true);
     expect(response.body.message).toBe("Product Added");
+    expect(cloudinary.uploader.upload).toHaveBeenCalledWith(
+      "test-image-path.jpg",
+      {
+        resource_type: "image",
+      }
+    );
   });
+
   it("should get the list of products", async () => {
     const res = await request(app).get("/products/list");
     expect(res.statusCode).toBe(200);
