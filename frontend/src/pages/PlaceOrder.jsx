@@ -46,17 +46,11 @@ const PlaceOrder = () => {
     });
 
     // Additional validations
-    if (
-      formData.get("email") &&
-      !/\S+@\S+\.\S+/.test(formData.get("email"))
-    ) {
+    if (formData.get("email") && !/\S+@\S+\.\S+/.test(formData.get("email"))) {
       newErrors.email = "Invalid email address.";
     }
 
-    if (
-      formData.get("phone") &&
-      !/^\d{10,15}$/.test(formData.get("phone"))
-    ) {
+    if (formData.get("phone") && !/^\d{10,15}$/.test(formData.get("phone"))) {
       newErrors.phone = "Phone number must be 10-15 digits.";
     }
 
@@ -68,6 +62,13 @@ const PlaceOrder = () => {
     }
 
     setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) {
+      toast.error("Please fill in all valid shipping details.", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+      return false;
+    }
     return Object.keys(newErrors).length === 0;
   };
 
@@ -195,7 +196,74 @@ const PlaceOrder = () => {
         <div className="mt-10">
           <h2 className="font-bold text-2xl mb-5">Payment Method</h2>
           <div className="grid gap-4">
-            {/* Payment methods as before */}
+            <div
+              onClick={() => setMethod("stripe")}
+              className={`flex items-center gap-4 border-2 p-4 cursor-pointer rounded-lg  ${
+                method === "stripe"
+                  ? "border-[var(--Pink)] bg-[var(--Light)] shadow-md"
+                  : "border-gray-300 bg-white"
+              }`}
+              data-testid="payment-method-stripe"
+            >
+              <div
+                className={`w-5 h-5 border rounded-full flex justify-center items-center ${
+                  method === "stripe" ? "bg-[var(--Pink)]" : ""
+                }`}
+              >
+                {method === "stripe" && (
+                  <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
+                )}
+              </div>
+              <img
+                className="h-8"
+                src="/src/assets/stripe_logo.png"
+                alt="Stripe"
+              />
+            </div>
+            <div
+              onClick={() => setMethod("razorpay")}
+              className={`flex items-center gap-4 border-2 p-4 cursor-pointer rounded-lg  ${
+                method === "razorpay"
+                  ? "border-[var(--Pink)] bg-[var(--Light)] shadow-md"
+                  : "border-gray-300 bg-white"
+              }`}
+              data-testid="payment-method-razorpay"
+            >
+              <div
+                className={`w-5 h-5 border rounded-full flex justify-center items-center ${
+                  method === "razorpay" ? "bg-[var(--Pink)]" : ""
+                }`}
+              >
+                {method === "razorpay" && (
+                  <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
+                )}
+              </div>
+              <img
+                className="h-8"
+                src="/src/assets/razorpay_logo.png"
+                alt="Razorpay"
+              />
+            </div>
+            <div
+              onClick={() => setMethod("cod")}
+              className={`flex items-center gap-4 border-2 p-4 cursor-pointer rounded-lg  ${
+                method === "cod"
+                  ? "border-[var(--Pink)] bg-[var(--Light)] shadow-md"
+                  : "border-gray-300 bg-white"
+              }`}
+              data-testid="payment-method-cod"
+            >
+              <div
+                className={`w-5 h-5 border rounded-full flex justify-center items-center ${
+                  method === "cod" ? "bg-[var(--Pink)]" : ""
+                }`}
+              >
+                {method === "cod" && (
+                  <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
+                )}
+              </div>
+              <span>Cash on Delivery</span>
+            </div>
           </div>
         </div>
       </div>
