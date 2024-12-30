@@ -11,7 +11,7 @@ describe("Collection Component", () => {
       title: "Women's Hoodie",
       description: "A warm hoodie for women",
       price: "$50",
-      category: "Hoodie",
+      category: "Hoodies",
       subCategory: "Women",
       image: ["hoodie.jpg"],
     },
@@ -60,20 +60,20 @@ describe("Collection Component", () => {
         </ShopContext.Provider>
       </MemoryRouter>
     );
-  
+
     const categorySelect = screen.getAllByDisplayValue("DEFAULT")[1]; // Select the category dropdown
-  
+
     // Filter by "Hoodies"
-    fireEvent.change(categorySelect, { target: { value: "Hoodie" } });
-  
+    fireEvent.change(categorySelect, { target: { value: "Hoodies" } });
+
     // Wait for the DOM to update
     await screen.findByText("Women's Hoodie");
-  
+
     const productCollection = screen.getByTestId("product-collection");
     expect(productCollection.children.length).toBe(1); // Only one hoodie should be displayed
     expect(screen.getByText("Women's Hoodie")).toBeInTheDocument();
   });
-  
+
   it("filters products based on the search query", async () => {
     render(
       <MemoryRouter>
@@ -82,23 +82,14 @@ describe("Collection Component", () => {
         </ShopContext.Provider>
       </MemoryRouter>
     );
-  
+
     const searchInput = screen.getByPlaceholderText("Search...");
-  
-    // Simulate a search query
-    fireEvent.change(searchInput, { target: { value: "Hoodie" } });
-  
-    // Wait for the DOM to update
+    fireEvent.change(searchInput, { target: { value: "Hoodies" } });
+
     const productCollection = await screen.findByTestId("product-collection");
-  
-    // Check that only the searched product is displayed
-    expect(productCollection.children.length).toBe(1);
+    expect(productCollection.children.length).toBe(1); // One match
     expect(screen.getByText("Women's Hoodie")).toBeInTheDocument();
-    expect(screen.queryByText("Men's Shirt")).not.toBeInTheDocument();
-    expect(screen.queryByText("Kid's T-Shirt")).not.toBeInTheDocument();
   });
-  
-  
 
   it("handles no results for search", async () => {
     render(
@@ -110,14 +101,9 @@ describe("Collection Component", () => {
     );
 
     const searchInput = screen.getByPlaceholderText("Search...");
-
-    // Search for a non-existent product
     fireEvent.change(searchInput, { target: { value: "NonExistent" } });
 
-    // Wait for the DOM to update
-    await screen.findByTestId("product-collection");
-
-    const productCollection = screen.getByTestId("product-collection");
-    expect(productCollection.children.length).toBe(0);
+    const productCollection = await screen.findByTestId("product-collection");
+    expect(productCollection.children.length).toBe(0); // No results
   });
 });

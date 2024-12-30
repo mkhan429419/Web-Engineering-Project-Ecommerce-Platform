@@ -172,12 +172,14 @@ const Navbar = () => {
                 className="fixed z-20 divide-y divide-gray-100 rounded-md shadow bg-[var(--Light)]"
               >
                 <ul className="py-2 text-sm">
-                  <li
-                    onClick={() => (token ? null : navigate("/Login"))}
-                    className="block px-2 text-[var(--Brown)] py-2 hover:text-yellow-800"
-                  >
-                    My Profile
-                  </li>
+                  {!token && (
+                    <li
+                      onClick={() => (token ? null : navigate("/Login"))}
+                      className="block px-2 text-[var(--Brown)] py-2 hover:text-yellow-800"
+                    >
+                      My Profile
+                    </li>
+                  )}
                   {token && (
                     <>
                       <li
@@ -215,12 +217,15 @@ const Navbar = () => {
                   className="absolute top-full right-0 z-20 divide-y divide-gray-100 rounded-md shadow bg-[var(--Light)]"
                 >
                   <ul className="py-2 text-sm">
-                    <li
-                      onClick={() => (token ? null : navigate("/Login"))}
-                      className="block  px-2 text-[var(--Brown)] py-2 hover:text-yellow-800"
-                    >
-                      My Profile
-                    </li>
+                    {!token && (
+                      <li
+                        onClick={() => (token ? null : navigate("/Login"))}
+                        className="block  px-2 text-[var(--Brown)] py-2 hover:text-yellow-800"
+                      >
+                        My Profile
+                      </li>
+                    )}
+
                     {token && (
                       <>
                         <li

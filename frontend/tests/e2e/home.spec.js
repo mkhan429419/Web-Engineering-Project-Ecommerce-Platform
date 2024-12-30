@@ -61,10 +61,24 @@ test.describe("Home Page Tests", () => {
   test("should display loading state in LatestCollection before data is fetched", async ({
     page,
   }) => {
-    const loadingText = await page.locator("text=Loading products...");
-    console.log("Waiting for loading state...");
+    console.log("Testing loading state...");
 
-    await expect(loadingText).toBeVisible({ timeout: 10000 });
+    // Mock the loading state
+    await page.route("http://localhost:4000/api/product/list", (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          success: true,
+          products: [], // Simulate no products initially
+        }),
+      });
+    });
+
+    await page.goto("/");
+
+    const loadingText = page.locator("text=Loading products...");
+    await expect(loadingText).toBeVisible();
   });
 
   test("should render LatestCollection products after data is fetched", async ({

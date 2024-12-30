@@ -34,7 +34,7 @@ const Cart = () => {
                   <div key={product._id + size}>
                     <div className="grid grid-cols-2 sm:grid-cols-5 text-lg gap-10 mt-5">
                       <div
-                        className="flex justify-start col-span-2 gap-5"
+                        className="flex flex-wrap justify-start col-span-2 gap-5"
                         data-testid={`cart-item-row-${product._id}-${size}`}
                       >
                         <img

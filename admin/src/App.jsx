@@ -10,7 +10,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const backendUrl = "http://localhost:4000";
-export const currency = "$";
+export const currency = "Rs";
 
 const App = () => {
   const [token, setToken] = useState(
@@ -22,7 +22,7 @@ const App = () => {
   }, [token]);
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-light min-h-screen">
       <ToastContainer />
       {token === "" ? (
         <Login setToken={setToken} />

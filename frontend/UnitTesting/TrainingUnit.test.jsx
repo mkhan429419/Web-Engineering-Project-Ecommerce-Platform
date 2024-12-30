@@ -6,6 +6,11 @@ import Training from "../src/pages/Training";
 jest.mock("../src/assets/sc/22.jpg", () => "mocked-crafting.jpg");
 jest.mock("../src/assets/sc/23.jpg", () => "mocked-marketing.jpg");
 jest.mock("../src/assets/sc/24.jpg", () => "mocked-packaging.jpg");
+jest.mock("../src/assets/sample-1.mp4", () => "mocked-video-1.mp4");
+jest.mock("../src/assets/sample-2.mp4", () => "mocked-video-2.mp4");
+jest.mock("../src/assets/sample-3.mp4", () => "mocked-video-3.mp4");
+jest.mock("../src/assets/sample-4.mp4", () => "mocked-video-4.mp4");
+jest.mock("../src/assets/sample-5.mp4", () => "mocked-video-5.mp4");
 
 describe("Training Component", () => {
   it("renders the quote section", () => {
@@ -67,7 +72,7 @@ describe("Training Component", () => {
   it("renders the course videos", () => {
     render(<Training />);
     const videos = screen.getAllByTestId("course-video");
-    expect(videos.length).toBe(2);
+    expect(videos.length).toBe(5);
     videos.forEach((video) => {
       expect(video).toHaveAttribute("controls");
     });

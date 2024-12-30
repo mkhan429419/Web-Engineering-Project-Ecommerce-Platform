@@ -92,15 +92,25 @@ test("shows an error if shipping details are incomplete", async () => {
     Delivery_charges: 200,
     products: [{ _id: "product1", price: 500 }],
   };
-  const { getByText } = render(
+
+  const { getByText, getByLabelText } = render(
     <ShopContext.Provider value={mockContextValue}>
       <PlaceOrder />
     </ShopContext.Provider>
   );
+
+  // Fill in only one field
+  fireEvent.change(getByLabelText(/First Name/i), {
+    target: { value: "John" },
+  });
+
+  // Submit the form
   fireEvent.click(getByText(/Place Order/i));
+
+  // Assert the toast error message
   await waitFor(() => {
     expect(toast.error).toHaveBeenCalledWith(
-      "Please fill in all shipping details.",
+      "Please fill in all valid shipping details.",
       expect.any(Object)
     );
   });

@@ -1,12 +1,10 @@
 import React from "react";
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { BrowserRouter, MemoryRouter } from "react-router-dom";
-import axios from "axios";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Product from "./Product";
 import { ShopContext } from "../context/ShopContext";
 
-jest.mock("axios");
-
+// Mock products data
 const mockProducts = [
   {
     _id: "product-1",
@@ -28,20 +26,22 @@ const mockProducts = [
   },
 ];
 
+// Mock ShopContext value
 const mockContextValue = {
   products: mockProducts,
   curr: "Rs",
   addingAnItemToTheCart: jest.fn(),
-  backendUrl: 'http://localhost:4000'
 };
 
-const renderWithContext = (component) => {
+const renderWithRouter = (ui, route = "/product/product-1") => {
   return render(
-    <BrowserRouter>
+    <MemoryRouter initialEntries={[route]}>
       <ShopContext.Provider value={mockContextValue}>
-        {component}
+        <Routes>
+          <Route path="/product/:ProductId" element={ui} />
+        </Routes>
       </ShopContext.Provider>
-    </BrowserRouter>
+    </MemoryRouter>
   );
 };
 
@@ -51,72 +51,62 @@ describe("Product Page", () => {
   });
 
   test("displays product details correctly", async () => {
-    // Mock the API call to fetch products
-    axios.get.mockResolvedValueOnce({
-      data: { success: true, products: mockProducts[0] },
-    });
-
     await act(async () => {
-      renderWithContext(<Product />, ["/product/product-1"]);
+      renderWithRouter(<Product />);
     });
 
-    expect(screen.getByTestId("product-title")).toHaveTextContent("Product 1");
-    expect(screen.getByTestId("product-description")).toHaveTextContent(
+    // Wait for product details to load and verify content
+    expect(await screen.findByTestId("product-title")).toHaveTextContent(
+      "Product 1"
+    );
+    expect(await screen.findByTestId("product-description")).toHaveTextContent(
       "Description of Product 1"
     );
-    expect(screen.getByText("Rs.100")).toBeInTheDocument();
+
+    // Match price in a single node
+    expect(screen.getByTestId("product-price")).toHaveTextContent("Rs.100");
   });
 
-//   test("selects size and adds item to cart", async () => {
-//     // Mock the API call to fetch products
-//     axios.get.mockResolvedValueOnce({
-//       data: { success: true, products: mockProducts },
-//     });
+  test("renders similar products", async () => {
+    await act(async () => {
+      renderWithRouter(<Product />);
+    });
 
-//     await act(async () => {
-//       renderWithContext(<Product />, ["/product/product-1"]);
-//     });
+    const similarProducts = screen.getByTestId("similar-products");
+    expect(similarProducts).toBeInTheDocument();
+    expect(similarProducts.children.length).toBe(1); // Only one other product in the same category
+    expect(screen.getByText("Product 2")).toBeInTheDocument();
+  });
 
-//     // Select size
-//     const sizeButtonM = screen.getByTestId("size-button-M");
-//     fireEvent.click(sizeButtonM);
-//     expect(sizeButtonM).toHaveClass("border-yellow-600"); // Check if selected size has the correct class
+  test("handles product not found", async () => {
+    await act(async () => {
+      renderWithRouter(<Product />, "/product/non-existent-product");
+    });
 
-//     // Add to cart
-//     const addToCartButton = screen.getByRole("button", { name: /Add to Cart/i });
-//     fireEvent.click(addToCartButton);
+    expect(screen.getByText("Product not found")).toBeInTheDocument();
+  });
 
-//     expect(mockContextValue.addingAnItemToTheCart).toHaveBeenCalledWith(
-//       "product-1",
-//       "M"
-//     );
-//   });
+  test("handles size selection and adds item to cart", async () => {
+    await act(async () => {
+      renderWithRouter(<Product />);
+    });
 
-//   test("shows similar products", async () => {
-//     // Mock the API call to fetch products
-//     axios.get.mockResolvedValueOnce({
-//       data: { success: true, products: mockProducts[0] },
-//     });
+    // Select size
+    const sizeButtonM = screen.getByTestId("size-button-M");
+    act(() => {
+      sizeButtonM.click();
+    });
+    expect(sizeButtonM).toHaveClass("border-yellow-600");
 
-//     await act(async () => {
-//       renderWithContext(<Product />, ["/product/product-1"]);
-//     });
+    // Add to cart using `aria-label`
+    const addToCartButton = screen.getByLabelText("Add this item to your cart");
+    act(() => {
+      addToCartButton.click();
+    });
 
-//     const similarProducts = screen.getByTestId("similar-products");
-//     expect(similarProducts).toBeInTheDocument();
-//     expect(similarProducts.children.length).toBe(1); // Only Product 2 should be similar
-//   });
-
-//   test("handles product not found", async () => {
-//     // Mock the API call to fetch products
-//     axios.get.mockResolvedValueOnce({
-//       data: { success: true, products: [] }, // No products found
-//     });
-
-//     await act(async () => {
-//       renderWithContext(<Product />, ["/product/product-1"]);
-//     });
-
-//     expect(screen.getByText("Product not found")).toBeInTheDocument();
-//   });
+    expect(mockContextValue.addingAnItemToTheCart).toHaveBeenCalledWith(
+      "product-1",
+      "M"
+    );
+  });
 });

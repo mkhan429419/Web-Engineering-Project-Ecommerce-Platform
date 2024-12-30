@@ -77,15 +77,15 @@ const Product = () => {
             {isData.title}
           </h1>
           <hr />
-          <p className="py-2 text-gray-600 text-lg">
-            <span className="text-3xl font-bold text-gray-500">{curr}.</span>
-            {isData.price}
+          <p className="py-2 text-gray-600 text-lg" data-testid="product-price">
+            {`${curr}.${isData.price}`}
           </p>
-          <p
-            className="text-[var(--Brown)] text-xl"
-            data-testid="product-description"
-          >
-            {isData.description}
+
+          <p className="py-2 text-gray-600 text-md">
+            Category: {isData.category}
+          </p>
+          <p className="py-2 text-gray-600 text-md">
+            SubCategory: {isData.subCategory}
           </p>
 
           <div className="mt-10">
@@ -115,6 +115,15 @@ const Product = () => {
           >
             Add to Cart
           </button>
+          <h3 className="text-[var(--Brown)] text-2xl font-bold pb-2 pt-5 lg:pt-0">
+            Description:
+          </h3>
+          <p
+            className="text-[var(--Brown)] text-xl"
+            data-testid="product-description"
+          >
+            {isData.description}
+          </p>
 
           <ul className="text-[var(--Brown)] text-lg list-disc pb-8 mx-6 my-10">
             <li>Guaranteed Original Product</li>

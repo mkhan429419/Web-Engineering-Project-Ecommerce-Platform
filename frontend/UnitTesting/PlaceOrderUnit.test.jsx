@@ -6,7 +6,7 @@ import PlaceOrder from "../src/pages/PlaceOrder";
 describe("PlaceOrder Component", () => {
   const mockContext = {
     cart: {
-      "1": { S: 2 },
+      1: { S: 2 },
     },
     totalAmount: 100,
     Delivery_charges: 50,
@@ -62,17 +62,23 @@ describe("PlaceOrder Component", () => {
         <PlaceOrder />
       </ShopContext.Provider>
     );
-  
+
     // Default method should be Stripe
-    expect(screen.getByAltText(/Stripe/i).closest("div")).toHaveClass("border-[var(--Pink)]");
-  
+    expect(screen.getByAltText(/Stripe/i).closest("div")).toHaveClass(
+      "border-[var(--Pink)]"
+    );
+
     // Select Razorpay
     fireEvent.click(screen.getByAltText(/Razorpay/i));
-    expect(screen.getByAltText(/Razorpay/i).closest("div")).toHaveClass("border-[var(--Pink)]");
-  
+    expect(screen.getByAltText(/Razorpay/i).closest("div")).toHaveClass(
+      "border-[var(--Pink)]"
+    );
+
     // Select Cash on Delivery
     fireEvent.click(screen.getByText(/Cash on Delivery/i));
-    expect(screen.getByText(/Cash on Delivery/i).closest("div")).toHaveClass("border-[var(--Pink)]");
+    expect(screen.getByText(/Cash on Delivery/i).closest("div")).toHaveClass(
+      "border-[var(--Pink)]"
+    );
   });
 
   it("should display the Place Order button", () => {
@@ -85,8 +91,4 @@ describe("PlaceOrder Component", () => {
     const placeOrderButton = screen.getByText(/Place Order/i);
     expect(placeOrderButton).toBeInTheDocument();
   });
-
-  
-  
-  
 });
