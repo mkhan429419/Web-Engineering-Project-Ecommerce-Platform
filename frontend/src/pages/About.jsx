@@ -46,10 +46,14 @@ const About = () => {
             src={picture}
             className="max-h-96 object-contain rounded-md shadow-md"
             alt="Sample"
+            data-testid="about-image" // <-- Added test ID
           />
         </div>
         <div className="flex flex-col justify-center items-start">
-          <h1 className="text-4xl font-semibold mb-5 text-[var(--Brown)]">
+          <h1
+            className="text-4xl font-semibold mb-5 text-[var(--Brown)]"
+            data-testid="about-heading" // <-- Added test ID
+          >
             About Craftsy
           </h1>
           <p className="text-justify text-lg text-[var(--Brown)] mb-10">
@@ -70,7 +74,7 @@ const About = () => {
       </div>
 
       {/* Services Section */}
-      <div className="bg-[var(--Light)] w-full">
+      <div className="bg-[var(--Light)] w-full" data-testid="services-section">
         <h1 className="font-bold text-3xl text-center text-[var(--Brown)] py-10">
           Why Choose Craftsy?
         </h1>
@@ -79,20 +83,25 @@ const About = () => {
             return (
               <div
                 key={index}
-                className="block m-3 p-4 border rounded-md shadow-md cursor-pointer hover:scale-105 transition-all text-center"
+                className="block m-3 p-6 text-center bg-white rounded-lg shadow-md"
+                data-testid={`service-card-${index}`} // <-- Added test ID
               >
-                <div className="p-4">
-                  <div className="bg-white rounded-full w-20 h-20 flex justify-center items-center mx-auto mb-4">
-                    <FontAwesomeIcon
-                      icon={service.icon}
-                      className="h-8 text-[var(--Brown)]"
-                    />
-                  </div>
-                  <h2 className="text-lg font-semibold text-gray-700 mb-2">
-                    {service.heading}
-                  </h2>
-                  <p className="text-md text-gray-600">{service.description}</p>
-                </div>
+                <FontAwesomeIcon
+                  icon={service.icon}
+                  className="text-5xl text-[var(--Brown)] mb-4"
+                />
+                <h2
+                  className="text-xl font-semibold mb-2 text-[var(--Brown)]"
+                  data-testid={`service-heading-${index}`} // <-- Added test ID
+                >
+                  {service.heading}
+                </h2>
+                <p
+                  className="text-[var(--Brown)]"
+                  data-testid={`service-description-${index}`} // <-- Added test ID
+                >
+                  {service.description}
+                </p>
               </div>
             );
           })}
@@ -100,7 +109,9 @@ const About = () => {
       </div>
 
       {/* Newsletter Section */}
-      <NewsLetter />
+      <div data-testid="newsletter-section">
+        <NewsLetter />
+      </div>
     </div>
   );
 };

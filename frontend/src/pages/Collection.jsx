@@ -23,7 +23,7 @@ const Collection = () => {
     });
 
     const getPriceValue = (priceString) => {
-      return parseFloat(priceString.replace("$", ""));
+      return parseFloat(priceString.replace("Rs", ""));
     };
 
     if (cat !== "Default") {

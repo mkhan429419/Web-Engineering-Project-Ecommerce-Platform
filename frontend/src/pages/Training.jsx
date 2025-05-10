@@ -53,6 +53,7 @@ const Training = () => {
               alt="Crafting Skills"
               onLoad={() => handleImageLoad("crafting")}
               onError={() => handleImageError("crafting")}
+              data-testid={`crafting-image`}
             />
           </div>
           <div className="p-6">
@@ -88,6 +89,7 @@ const Training = () => {
               alt="Marketing Skills"
               onLoad={() => handleImageLoad("marketing")}
               onError={() => handleImageError("marketing")}
+              data-testid={`marketing-image`}
             />
           </div>
           <div className="p-6">
@@ -123,6 +125,7 @@ const Training = () => {
               alt="Packaging Skills"
               onLoad={() => handleImageLoad("packaging")}
               onError={() => handleImageError("packaging")}
+              data-testid={`packaging-image`}
             />
           </div>
           <div className="p-6">

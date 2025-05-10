@@ -16,13 +16,13 @@ const transporter = nodemailer.createTransport({
   logger: false,
 });
 
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("Error configuring Nodemailer:", error);
-  } else {
-    console.log("Nodemailer configured successfully:", success);
-  }
-});
+// transporter.verify((error, success) => {
+//   if (error) {
+//     console.error("Error configuring Nodemailer:", error);
+//   } else {
+//     console.log("Nodemailer configured successfully:", success);
+//   }
+// });
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET);

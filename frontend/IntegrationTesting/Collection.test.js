@@ -1,7 +1,7 @@
 import React from "react";
 import { render, waitFor } from "@testing-library/react";
-import Collection from "./Collection";
-import { ShopContext } from "../context/ShopContext";
+import Collection from "../src/pages/Collection";
+import { ShopContext } from "../src/context/ShopContext";
 import { MemoryRouter } from "react-router-dom";
 import axios from "axios";
 

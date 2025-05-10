@@ -1,25 +1,25 @@
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
-import Home from "./Home";
-import { ShopContext } from "../context/ShopContext";
+import Home from "../src/pages/Home";
+import { ShopContext } from "../src/context/ShopContext";
 import axios from "axios";
 
-jest.mock("../Components/Hero", () => {
+jest.mock("../src/Components/Hero", () => {
   const MockHero = () => <div>Hero Component</div>;
   MockHero.displayName = "Hero";
   return MockHero;
 });
-jest.mock("../Components/LatestCollection", () => {
+jest.mock("../src/Components/LatestCollection", () => {
   const MockLatestCollection = () => <div>Latest Collection Component</div>;
   MockLatestCollection.displayName = "LatestCollection";
   return MockLatestCollection;
 });
-jest.mock("../Components/BestSelling", () => {
+jest.mock("../src/Components/BestSelling", () => {
   const MockBestSelling = () => <div>Best Selling Component</div>;
   MockBestSelling.displayName = "BestSelling";
   return MockBestSelling;
 });
-jest.mock("../Components/NewsLetter", () => {
+jest.mock("../src/Components/NewsLetter", () => {
   const MockNewsLetter = () => <div>NewsLetter Component</div>;
   MockNewsLetter.displayName = "NewsLetter";
   return MockNewsLetter;

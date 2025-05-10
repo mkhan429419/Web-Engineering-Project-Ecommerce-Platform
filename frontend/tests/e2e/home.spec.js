@@ -41,7 +41,7 @@ test.describe("Home Page Tests", () => {
       })
     );
 
-    await page.goto("/");
+    await page.goto("http://localhost:5173/");
   });
 
   test("should render Hero section with images and controls", async ({
@@ -75,7 +75,7 @@ test.describe("Home Page Tests", () => {
       });
     });
 
-    await page.goto("/");
+    await page.goto("http://localhost:5173/");
 
     const loadingText = page.locator("text=Loading products...");
     await expect(loadingText).toBeVisible();

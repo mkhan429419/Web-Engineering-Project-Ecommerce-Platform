@@ -54,21 +54,6 @@ describe("Training Component", () => {
     });
   });
 
-  it("renders all course images with proper alt attributes", () => {
-    render(<Training />);
-    const images = [
-      { src: "mocked-crafting.jpg", alt: "Crafting Skills" },
-      { src: "mocked-marketing.jpg", alt: "Marketing Skills" },
-      { src: "mocked-packaging.jpg", alt: "Packaging Skills" },
-    ];
-
-    images.forEach(({ src, alt }) => {
-      const image = screen.getByAltText(alt);
-      expect(image).toBeInTheDocument();
-      expect(image).toHaveAttribute("src", src);
-    });
-  });
-
   it("renders the course videos", () => {
     render(<Training />);
     const videos = screen.getAllByTestId("course-video");
@@ -76,5 +61,23 @@ describe("Training Component", () => {
     videos.forEach((video) => {
       expect(video).toHaveAttribute("controls");
     });
+  });
+  it("renders all course images with proper attributes", async () => {
+    render(<Training />);
+
+    const craftingImage = screen.getByTestId("crafting-image");
+    expect(craftingImage.tagName).toBe("IMG");
+    expect(craftingImage).toHaveAttribute("src", "mocked-crafting.jpg");
+    expect(craftingImage).toHaveAttribute("alt", "Crafting Skills");
+
+    const marketingImage = screen.getByTestId("marketing-image");
+    expect(marketingImage.tagName).toBe("IMG");
+    expect(marketingImage).toHaveAttribute("src", "mocked-marketing.jpg");
+    expect(marketingImage).toHaveAttribute("alt", "Marketing Skills");
+
+    const packagingImage = screen.getByTestId("packaging-image");
+    expect(packagingImage.tagName).toBe("IMG");
+    expect(packagingImage).toHaveAttribute("src", "mocked-packaging.jpg");
+    expect(packagingImage).toHaveAttribute("alt", "Packaging Skills");
   });
 });

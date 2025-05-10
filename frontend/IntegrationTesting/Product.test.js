@@ -1,8 +1,8 @@
 import React from "react";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import Product from "./Product";
-import { ShopContext } from "../context/ShopContext";
+import Product from "../src/pages/Product";
+import { ShopContext } from "../src/context/ShopContext";
 
 // Mock products data
 const mockProducts = [

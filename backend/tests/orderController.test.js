@@ -57,6 +57,33 @@ describe("Order Controller", () => {
     expect(order.amount).toBe(199.98);
     expect(order.status).toBe("Order Placed");
   });
+  it("should handle errors and return failure response", async () => {
+    const userId = new mongoose.Types.ObjectId();
+    const saveMock = jest
+      .spyOn(orderModel.prototype, "save")
+      .mockImplementationOnce(() => {
+        throw new Error("Database save failed");
+      });
+    const req = {
+      body: {
+        userId: userId,
+        items: [{ productId: "prod123", quantity: 2 }],
+        amount: 199.98,
+        address: { street: "123 Main St", city: "Test City" },
+        paymentMethod: "credit card",
+      },
+    };
+    const res = {
+      json: jest.fn(),
+    };
+    await placeOrder(req, res);
+    expect(res.json).toHaveBeenCalledWith({
+      success: false,
+      message: "Database save failed",
+    });
+    saveMock.mockRestore();
+  });
+
   it("should get all orders for admin", async () => {
     const order = new orderModel({
       userId: "user123",

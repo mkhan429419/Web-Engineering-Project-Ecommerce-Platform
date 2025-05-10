@@ -178,7 +178,7 @@ const Orders = ({ token }) => {
       </div>
       {/* Orders List */}
       <div className="p-5 bg-white shadow-xl shadow-brown">
-        <h2 className="text-xl font-bold text-brown">Orders List</h2>
+        <h2 className="text-xl font-bold text-red">Orders List</h2>
         <div>
           {orders.map((order, index) => (
             <div
@@ -230,6 +230,7 @@ const Orders = ({ token }) => {
                 <option value="Packing">Packing</option>
                 <option value="Shipped">Shipped</option>
                 <option value="Out for delivery">Out for delivery</option>
+
                 <option value="Delivered">Delivered</option>
               </select>
             </div>
