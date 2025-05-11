@@ -76,6 +76,13 @@ test("submits an order successfully", async () => {
       })
     );
   });
+  await waitFor(() => {
+    expect(toast.success).toHaveBeenCalledWith(
+      "Order placed successfully!",
+      expect.any(Object)
+    );
+    expect(mockContextValue.navigate).toHaveBeenCalledWith("/Order");
+  });
 });
 jest.mock("react-toastify", () => ({
   toast: {

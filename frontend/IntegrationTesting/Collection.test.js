@@ -1,5 +1,5 @@
 import React from "react";
-import { render, waitFor } from "@testing-library/react";
+import { render, waitFor, screen } from "@testing-library/react";
 import Collection from "../src/pages/Collection";
 import { ShopContext } from "../src/context/ShopContext";
 import { MemoryRouter } from "react-router-dom";
@@ -67,9 +67,23 @@ describe("Integration Test: Collection and ProductItem Components", () => {
       const renderedProductIds = mockContextValue.products.map(
         (product) => product._id
       );
+
       expect(renderedProductIds).toEqual(
         mockProducts.map((product) => product._id)
       );
     });
+  });
+  test("renders product items from context correctly", async () => {
+    render(
+      <MemoryRouter>
+        <ShopContext.Provider
+          value={{ ...mockContextValue, products: mockProducts }}
+        >
+          <Collection />
+        </ShopContext.Provider>
+      </MemoryRouter>
+    );
+    expect(await screen.findByText("Product A")).toBeInTheDocument();
+    expect(await screen.findByText("Product B")).toBeInTheDocument();
   });
 });

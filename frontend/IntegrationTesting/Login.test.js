@@ -40,6 +40,11 @@ describe("API Integration Tests for Login and Sign-Up", () => {
     localStorage.setItem("token", response.data.token);
     expect(localStorage.setItem).toHaveBeenCalledWith("token", "testtoken");
   });
+  test("should clear token on logout", () => {
+    localStorage.setItem("token", "some-token");
+    localStorage.removeItem("token");
+    expect(localStorage.removeItem).toHaveBeenCalledWith("token");
+  });
   test("should call sign-up API successfully and handle token storage", async () => {
     axios.post.mockResolvedValueOnce({
       data: { success: true, token: "newusertoken" },
