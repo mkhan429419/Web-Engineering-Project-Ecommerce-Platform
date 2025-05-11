@@ -138,4 +138,21 @@ describe("Cart Page", () => {
       expect(price.textContent).toBe("Rs.100");
     });
   });
+  test("handles product fetch error gracefully", async () => {
+    axios.get.mockRejectedValueOnce(new Error("Failed to fetch products"));
+    const failingContext = {
+      ...mockContextValue,
+      products: [],
+    };
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <ShopContext.Provider value={failingContext}>
+            <Cart />
+          </ShopContext.Provider>
+        </BrowserRouter>
+      );
+    });
+    expect(screen.getByText("Cart is empty")).toBeInTheDocument();
+  });
 });

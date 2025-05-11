@@ -84,6 +84,58 @@ test("submits an order successfully", async () => {
     expect(mockContextValue.navigate).toHaveBeenCalledWith("/Order");
   });
 });
+test("shows error toast if order API fails", async () => {
+  const mockContextValue = {
+    cart: { product1: { M: 2 } },
+    totalAmount: 1000,
+    backendUrl: "http://localhost:4000",
+    token: "mock-token",
+    Delivery_charges: 200,
+    products: [{ _id: "product1", price: 500 }],
+  };
+
+  axios.post.mockRejectedValueOnce(new Error("Network Error"));
+
+  const { getByText, getByLabelText } = render(
+    <ShopContext.Provider value={mockContextValue}>
+      <PlaceOrder />
+    </ShopContext.Provider>
+  );
+
+  fireEvent.change(getByLabelText(/First Name/i), {
+    target: { value: "John" },
+  });
+  fireEvent.change(getByLabelText(/Last Name/i), {
+    target: { value: "Doe" },
+  });
+  fireEvent.change(getByLabelText(/Email Address/i), {
+    target: { value: "john@example.com" },
+  });
+  fireEvent.change(getByLabelText(/Street Address/i), {
+    target: { value: "123 Main St" },
+  });
+  fireEvent.change(getByLabelText(/City/i), {
+    target: { value: "City" },
+  });
+  fireEvent.change(getByLabelText(/State/i), {
+    target: { value: "State" },
+  });
+  fireEvent.change(getByLabelText(/ZipCode/i), {
+    target: { value: "12345" },
+  });
+  fireEvent.change(getByLabelText(/Country/i), {
+    target: { value: "USA" },
+  });
+  fireEvent.change(getByLabelText(/Phone Number/i), {
+    target: { value: "1234567890" },
+  });
+
+  fireEvent.click(getByText(/Place Order/i));
+
+  await waitFor(() => {
+    expect(toast.error).toHaveBeenCalledWith("Network Error");
+  });
+});
 jest.mock("react-toastify", () => ({
   toast: {
     error: jest.fn(),
