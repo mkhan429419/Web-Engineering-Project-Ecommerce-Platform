@@ -14,7 +14,9 @@ const placeOrder = async (req, res) => {
       paymentMethod,
       date: Date.now(),
     };
-
+    if (!items || items.length === 0) {
+      return res.json({ success: false, message: "Cart is empty" });
+    }
     const newOrder = new orderModel(orderData);
     await newOrder.save();
 

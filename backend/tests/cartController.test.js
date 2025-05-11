@@ -56,6 +56,62 @@ describe("Cart Controller Tests", () => {
       expect(response.body.message).toBe("Added To Cart");
       expect(mockUser.cartData[itemId][size]).toBe(2);
     });
+    it("should handle a long size string (boundary test)", async () => {
+      const userId = new mongoose.Types.ObjectId();
+      const itemId = "prod123";
+      const size = "X".repeat(256);
+      const mockUser = {
+        _id: userId,
+        cartData: {},
+      };
+      userModel.findById = jest.fn().mockResolvedValue(mockUser);
+      userModel.findByIdAndUpdate = jest.fn().mockResolvedValue(mockUser);
+      const response = await request(app)
+        .post("/cart/add")
+        .send({ userId, itemId, size })
+        .set("Authorization", "Bearer testtoken");
+
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.message).toBe("Added To Cart");
+      expect(mockUser.cartData[itemId]).toHaveProperty(size, 1);
+    });
+    it("should handle an empty size string (boundary test)", async () => {
+      const userId = new mongoose.Types.ObjectId();
+      const itemId = "prod123";
+      const size = "";
+      const mockUser = {
+        _id: userId,
+        cartData: {},
+      };
+      userModel.findById = jest.fn().mockResolvedValue(mockUser);
+      userModel.findByIdAndUpdate = jest.fn().mockResolvedValue(mockUser);
+      const response = await request(app)
+        .post("/cart/add")
+        .send({ userId, itemId, size })
+        .set("Authorization", "Bearer testtoken");
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(mockUser.cartData[itemId]).toHaveProperty(size, 1);
+    });
+    it("should handle an empty itemId (boundary test)", async () => {
+      const userId = new mongoose.Types.ObjectId();
+      const itemId = "";
+      const size = "M";
+      const mockUser = {
+        _id: userId,
+        cartData: {},
+      };
+      userModel.findById = jest.fn().mockResolvedValue(mockUser);
+      userModel.findByIdAndUpdate = jest.fn().mockResolvedValue(mockUser);
+      const response = await request(app)
+        .post("/cart/add")
+        .send({ userId, itemId, size })
+        .set("Authorization", "Bearer testtoken");
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(mockUser.cartData[itemId]).toHaveProperty(size, 1);
+    });
   });
   describe("POST /cart/delete", () => {
     it("should remove a product from the cart", async () => {

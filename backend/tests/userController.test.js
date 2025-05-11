@@ -68,4 +68,26 @@ describe("loginUser function", () => {
       message: "User doesn't exist",
     });
   });
+  it("should fail if email is empty", async () => {
+    req.body.email = "";
+    await loginUser(req, res);
+    expect(res.json).toHaveBeenCalledWith({
+      success: false,
+      message: "User doesn't exist",
+    });
+  });
+  it("should fail if password is too short", async () => {
+    req.body.password = "123";
+    userModel.findOne.mockResolvedValue({
+      _id: "12345",
+      email: "test@example.com",
+      password: "hashedpassword",
+    });
+    bcrypt.compare.mockResolvedValue(false);
+    await loginUser(req, res);
+    expect(res.json).toHaveBeenCalledWith({
+      success: false,
+      message: "Invalid credentials",
+    });
+  });
 });

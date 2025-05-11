@@ -155,4 +155,34 @@ describe("Order Controller", () => {
     const updatedOrder = await orderModel.findById(order._id);
     expect(updatedOrder.status).toBe("Shipped");
   });
+  it("should handle placing an order with empty items array (boundary case)", async () => {
+    const userId = new mongoose.Types.ObjectId();
+    const mockUser = new userModel({
+      _id: userId,
+      name: "Boundary User",
+      email: "boundary@example.com",
+      password: "hashedpassword",
+      cartData: [],
+    });
+    await mockUser.save();
+    const req = {
+      body: {
+        userId,
+        items: [],
+        amount: 0,
+        address: { street: "123 Main St", city: "Test City" },
+        paymentMethod: "credit card",
+      },
+    };
+    const res = {
+      json: jest.fn(),
+    };
+    await placeOrder(req, res);
+    expect(res.json).toHaveBeenCalledWith({
+      success: false,
+      message: "Cart is empty",
+    });
+    const order = await orderModel.findOne({ userId });
+    expect(order).toBeNull();
+  });
 });
