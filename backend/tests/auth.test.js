@@ -55,4 +55,10 @@ describe("authUser Middleware", () => {
     expect(response.body.success).toBe(false);
     expect(response.body.message).toBe("jwt malformed");
   });
+  it("should fail if token is valid but missing user ID", async () => {
+    const token = jwt.sign({ foo: "bar" }, process.env.JWT_SECRET);
+    const response = await request(app).post("/protected").set("token", token);
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(false);
+  });
 });

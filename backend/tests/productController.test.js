@@ -79,4 +79,15 @@ describe("addProduct function", () => {
       message: "Database error",
     });
   });
+  it("should reject product with invalid price (boundary case)", async () => {
+    req.body.price = "-5";
+    productModel.prototype.save = jest
+      .fn()
+      .mockRejectedValue(new Error("Database error"));
+    await addProduct(req, res);
+    expect(res.json).toHaveBeenCalledWith({
+      success: false,
+      message: "Database error",
+    });
+  });
 });
