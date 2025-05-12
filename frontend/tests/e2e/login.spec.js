@@ -144,4 +144,41 @@ test.describe("Login Page Tests", () => {
     const errorToast = await page.locator(".Toastify__toast--error");
     await expect(errorToast).toContainText("Please enter a strong password");
   });
+  test("should redirect to homepage if token exists in localStorage", async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      window.localStorage.setItem("token", "mock-token");
+    });
+    await page.goto("http://localhost:5173/login");
+    await page.waitForURL("http://localhost:5173/");
+    expect(page.url()).toBe("http://localhost:5173/");
+  });
+  test("should stay on login page if no token exists", async ({ page }) => {
+    await page.goto("http://localhost:5173/login");
+    expect(page.url()).toBe("http://localhost:5173/login");
+  });
+  test("should block invalid email format before form submission", async ({
+    page,
+  }) => {
+    await page.fill("input#email", "invalid-email");
+    await page.fill("input#password", "somepassword");
+
+    const [request] = await Promise.all([
+      page.waitForRequest("**/api/user/login").catch(() => null),
+      page.click("button[type='submit']"),
+    ]);
+    expect(request).toBeNull();
+  });
+  test("should not submit login form with empty fields", async ({ page }) => {
+    await page.fill("input#email", "");
+    await page.fill("input#password", "");
+
+    const [request] = await Promise.all([
+      page.waitForRequest("**/api/user/login").catch(() => null),
+      page.click("button[type='submit']"),
+    ]);
+
+    expect(request).toBeNull();
+  });
 });

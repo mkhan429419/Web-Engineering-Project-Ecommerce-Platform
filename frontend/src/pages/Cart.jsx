@@ -69,13 +69,12 @@ const Cart = () => {
                           value={cart[product._id][size]}
                           className="w-full md:w-20 border-2 border-black rounded-sm p-1"
                           data-testid={`quantity-input-${product._id}-${size}`}
-                          onChange={(e) =>
-                            updateQuantity(
-                              product._id,
-                              size,
-                              parseInt(e.target.value)
-                            )
-                          }
+                          onChange={(e) => {
+                            const newQty = parseInt(e.target.value);
+                            if (newQty >= 1 && newQty <= 100) {
+                              updateQuantity(product._id, size, newQty);
+                            }
+                          }}
                         />
                       </p>
                       <p
@@ -88,7 +87,6 @@ const Cart = () => {
                         icon={faTrash}
                         data-testid={`delete-icon-${product._id}-${size}`}
                         className="ml-2 text-red-600 cursor-pointer"
-                       
                         onClick={() => {
                           deleteProductFromCart(product._id, size);
                         }}

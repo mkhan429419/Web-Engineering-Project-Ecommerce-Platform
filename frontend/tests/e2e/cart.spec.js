@@ -133,11 +133,8 @@ test.describe("Cart Page Tests", () => {
     await toastNotification.waitFor();
     await expect(toastNotification).toBeVisible();
   });
-
   test("should calculate total price correctly", async ({ page }) => {
     const totalAmount = page.locator("[data-testid='total-amount']");
-
-    // Verify the total amount matches the expected calculation
     await expect(totalAmount).toHaveText("Rs334.00");
   });
 
@@ -151,5 +148,32 @@ test.describe("Cart Page Tests", () => {
 
     // Verify navigation
     await expect(page).toHaveURL("http://localhost:5173/PlaceOrder");
+  });
+  test("should ignore quantity less than 1 and allow up to 100", async ({
+    page,
+  }) => {
+    const quantityInput = page.locator(
+      "[data-testid='quantity-input-6768ffd6ad9c9ad645022b9d-M']"
+    );
+    await quantityInput.fill("0");
+    await quantityInput.blur();
+    await page.waitForTimeout(300);
+    const value = await quantityInput.inputValue();
+    expect(parseInt(value)).toBeGreaterThanOrEqual(1);
+    await quantityInput.fill("100");
+    await expect(quantityInput).toHaveValue("100");
+  });
+  test("should show empty cart message when no cart items", async ({
+    page,
+  }) => {
+    await page.route("http://localhost:4000/api/cart/get", (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ success: true, cartData: {} }),
+      });
+    });
+    await page.goto("http://localhost:5173/Cart");
+    await expect(page.locator("text=Cart is empty")).toBeVisible();
   });
 });

@@ -91,4 +91,18 @@ test.describe("Collection Page Tests", () => {
     // await expect(productItems).toHaveCount(1);
     await expect(productItems.first()).toContainText("Product A");
   });
+  test("should handle empty and long search queries gracefully", async ({
+    page,
+  }) => {
+    const searchInput = page.locator('input[placeholder="Search..."]');
+    await searchInput.fill("");
+    await page.waitForTimeout(300);
+    const allProducts = page.locator(
+      "[data-testid='product-collection'] [data-testid^='product-']"
+    );
+    await expect(allProducts).toHaveCount(3);
+    await searchInput.fill("x".repeat(300));
+    await page.waitForTimeout(300);
+    await expect(allProducts).toHaveCount(0);
+  });
 });
