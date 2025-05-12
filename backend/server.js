@@ -9,26 +9,31 @@ import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 
 // App Config
-
 const app = express();
 const port = process.env.PORT || 4000;
+
+// Connect to database
 connectDB();
 connectCloudinary();
 
-// middlewares
-
+// Middlewares
 app.use(express.json());
 app.use(cors());
 
-// api endpoints
-
+// Routes
 app.use("/api/user", userRouter);
-app.use("/api/product", productRouter);
+app.use("/api/products", productRouter);
 app.use("/api/cart", cartRouter);
-app.use("/api/order", orderRouter);
+app.use("/api/orders", orderRouter);
 
 app.get("/", (req, res) => {
   res.send("API Working");
 });
 
-app.listen(port, () => console.log("Server started on PORT: " + port));
+// For local development
+if (process.env.NODE_ENV !== "production") {
+  app.listen(port, () => console.log("Server started on PORT: " + port));
+}
+
+// Export for Vercel
+export default app;
