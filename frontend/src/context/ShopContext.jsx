@@ -12,7 +12,7 @@ export const ShopContext = createContext();
 const ShopContextProvider = (props) => {
   const curr = "Rs";
   const Delivery_charges = 200;
-  const backendUrl = "http://localhost:4000";
+  const backendUrl = "https://web-engineering-project-ecommerce-platform-2icq.vercel.app";
 
   const [cart, setCart] = useState({});
   const [products, setProducts] = useState([]);

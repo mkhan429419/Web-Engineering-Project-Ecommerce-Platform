@@ -9,7 +9,7 @@ import Login from "./components/Login";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const backendUrl = "http://localhost:4000";
+export const backendUrl = "https://web-engineering-project-ecommerce-platform-2icq.vercel.app";
 export const currency = "Rs";
 
 const App = () => {
