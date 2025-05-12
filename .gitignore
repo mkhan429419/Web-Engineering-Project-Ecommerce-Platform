@@ -9,3 +9,4 @@ frontend/allure-report
 frontend/allure-results
 frontend/playwright-report/index.html
 frontend/test-results/.last-run.json
+frontend/jest-stare

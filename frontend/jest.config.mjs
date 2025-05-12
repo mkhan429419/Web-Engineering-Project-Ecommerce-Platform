@@ -13,4 +13,18 @@ export default {
   ],
   testPathIgnorePatterns: ["<rootDir>/tests/e2e/"], // Ignore end-to-end tests
   moduleFileExtensions: ["js", "jsx", "mjs"], // Supported file extensions
+  // jest.config.js (ESM version)
+  reporters: [
+    "default",
+    [
+      "jest-stare",
+      {
+        resultDir: "jest-stare",
+        reportTitle: "My Jest Report",
+        coverageLink: "./coverage/lcov-report/index.html", // Optional
+        jestStareConfigJson: "jest-stare.json",
+        jestGlobalConfigJson: "global-jest-config.json",
+      },
+    ],
+  ],
 };
