@@ -127,4 +127,68 @@ test.describe("Home Page Tests", () => {
     await expect(emailInput).toBeVisible();
     await expect(subscribeButton).toBeVisible();
   });
+  test("should submit newsletter form with valid email", async ({ page }) => {
+    // 👇 Mock the newsletter POST endpoint
+    await page.route("http://localhost:4000/api/user/newsletter", (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ message: "Subscribed" }),
+      });
+    });
+    await page.goto("http://localhost:5173/");
+    const emailInput = page.locator("input[placeholder='Enter your email']");
+    const subscribeButton = page.locator("button:text('Subscribe')");
+
+    await emailInput.fill("test@example.com");
+    await subscribeButton.click();
+    const toast = page.locator(".Toastify__toast");
+    await expect(toast).toContainText(/subscription|success/i, {
+      timeout: 8000,
+    });
+  });
+  test("should display key sections correctly on mobile viewport", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("http://localhost:5173/");
+
+    const heroImage = page.locator("img[src*='17.png']");
+    const newsletterTitle = page.locator("h2:has-text('Stay Updated')");
+
+    await expect(heroImage).toBeVisible();
+    await expect(newsletterTitle).toBeVisible();
+  });
+  test("should navigate carousel with arrows and indicators", async ({
+    page,
+  }) => {
+    await page.goto("http://localhost:5173/");
+    const slider = page.locator("[data-testid='indicators']");
+    const getTranslateX = async () => {
+      const transform = await slider.evaluate(
+        (el) => getComputedStyle(el).transform
+      );
+      const match = transform.match(
+        /matrix.*\(\s*.*,\s*.*,\s*.*,\s*.*,\s*(-?\d+\.?\d*),/
+      );
+      return match ? parseFloat(match[1]) : 0;
+    };
+    const initialX = await getTranslateX();
+    await page.locator("button:has-text('→')").click();
+    await page.waitForTimeout(500);
+    const nextX = await getTranslateX();
+    expect(nextX).not.toBe(initialX);
+    await page.locator("button:has-text('←')").click();
+    await page.waitForTimeout(500);
+    const revertedX = await getTranslateX();
+    expect(Math.abs(revertedX)).toBeLessThan(1);
+    const dot = page.locator(".absolute.bottom-4.left-1\\/2 div").nth(2);
+    await dot.click();
+    await page.waitForTimeout(500);
+    const finalX = await getTranslateX();
+
+    const viewportWidth = page.viewportSize()?.width ?? 1280;
+    const expectedShift = -2 * viewportWidth;
+    expect(Math.abs(finalX - expectedShift)).toBeLessThan(viewportWidth * 0.08);
+  });
 });
