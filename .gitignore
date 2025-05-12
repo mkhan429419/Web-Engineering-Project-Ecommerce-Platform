@@ -4,6 +4,7 @@ admin/node_modules
 backend/.env
 frontend/.env
 admin/.env
+frontend/coverage
 frontend/allure-report
 frontend/allure-results
 frontend/playwright-report/index.html
