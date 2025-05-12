@@ -1,5 +1,11 @@
 import React from "react";
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  act,
+  waitFor,
+} from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Product from "../src/pages/Product";
 import { ShopContext } from "../src/context/ShopContext";
@@ -107,6 +113,14 @@ describe("Product Page", () => {
     expect(mockContextValue.addingAnItemToTheCart).toHaveBeenCalledWith(
       "product-1",
       "M"
+    );
+  });
+  test("navigates to similar product detail page on click", async () => {
+    const { container } = renderWithRouter(<Product />);
+    const similarProductCard = await screen.findByText("Product 2");
+    fireEvent.click(similarProductCard);
+    await waitFor(() =>
+      expect(screen.getByTestId("product-title")).toHaveTextContent("Product 2")
     );
   });
 });

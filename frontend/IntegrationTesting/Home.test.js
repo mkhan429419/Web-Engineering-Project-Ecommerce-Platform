@@ -87,4 +87,34 @@ describe("Home Component", () => {
       expect(mockContextValue.products).toEqual(mockProducts);
     });
   });
+  test("handles API failure gracefully", async () => {
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+    const mockError = new Error("Failed to fetch");
+    axios.get.mockRejectedValueOnce(mockError);
+    const context = {
+      ...mockContextValue,
+      getProductsData: async () => {
+        try {
+          await axios.get(`${mockContextValue.backendUrl}/api/product/list`);
+        } catch (err) {
+          console.error("Error fetching products:", err);
+        }
+      },
+    };
+    render(
+      <ShopContext.Provider value={context}>
+        <Home />
+      </ShopContext.Provider>
+    );
+    await context.getProductsData();
+    await waitFor(() => {
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        "Error fetching products:",
+        mockError
+      );
+    });
+    consoleErrorSpy.mockRestore();
+  });
 });
