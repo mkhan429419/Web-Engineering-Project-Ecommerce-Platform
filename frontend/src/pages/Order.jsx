@@ -25,7 +25,11 @@ const Order = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.error(error.message);
+      if (error.response?.status === 401) {
+        toast.error("Unauthorized: Please log in again.");
+      } else {
+        toast.error(error.message);
+      }
     }
   };
 
