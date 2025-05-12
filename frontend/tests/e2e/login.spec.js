@@ -133,4 +133,15 @@ test.describe("Login Page Tests", () => {
     const errorToast = await page.locator(".Toastify__toast--error");
     await expect(errorToast).toContainText("User already exists");
   });
+  test("should show error for 7-character password during sign-up", async ({
+    page,
+  }) => {
+    await page.click("text=Create Account");
+    await page.fill("input#name", "Test User");
+    await page.fill("input#email", "test7char@example.com");
+    await page.fill("input#password", "1234567");
+    await page.click("button[type='submit']");
+    const errorToast = await page.locator(".Toastify__toast--error");
+    await expect(errorToast).toContainText("Please enter a strong password");
+  });
 });

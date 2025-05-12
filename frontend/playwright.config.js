@@ -16,5 +16,6 @@ export default defineConfig({
       use: { browserName: "chromium" },
     },
   ],
-  reporter: [["list"], ["html", { outputFolder: "playwright-report" }]],
+  reporter: [["allure-playwright"]],
+  // reporter: [["list"], ["html", { outputFolder: "playwright-report" }]],
 });

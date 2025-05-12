@@ -4,3 +4,7 @@ admin/node_modules
 backend/.env
 frontend/.env
 admin/.env
+frontend/allure-report
+frontend/allure-results
+frontend/playwright-report/index.html
+frontend/test-results/.last-run.json
