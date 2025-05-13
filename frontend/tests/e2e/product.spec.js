@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-
+import { allure } from "allure-playwright";
 test.describe("Product Page Tests", () => {
   test.beforeEach(async ({ page }) => {
     console.log("Mock API called");
@@ -49,6 +49,7 @@ test.describe("Product Page Tests", () => {
   });
 
   test("should display product details correctly", async ({ page }) => {
+    allure.label("severity", "critical");
     await page.waitForSelector("[data-testid='product-title']");
 
     const title = await page.locator("[data-testid='product-title']");
@@ -63,6 +64,7 @@ test.describe("Product Page Tests", () => {
   });
 
   test("should add the product to the cart", async ({ page }) => {
+    allure.label("severity", "blocker");
     // Select size using unique selector
     const sizeButton = await page.locator("[data-testid='size-button-L']");
     await sizeButton.click();

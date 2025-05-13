@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-
+import { allure } from "allure-playwright";
 test.describe("Home Page Tests", () => {
   test.beforeEach(async ({ page }) => {
     console.log("Mock API called");
@@ -47,6 +47,7 @@ test.describe("Home Page Tests", () => {
   test("should render Hero section with images and controls", async ({
     page,
   }) => {
+    allure.label("severity", "minor");
     const heroImage = await page.locator("img[src*='17.png']");
     await expect(heroImage).toBeVisible();
     const prevButton = await page.locator("button:has-text('←')");
@@ -84,6 +85,7 @@ test.describe("Home Page Tests", () => {
   test("should render LatestCollection products after data is fetched", async ({
     page,
   }) => {
+    allure.label("severity", "critical");
     await page.waitForSelector(".grid.grid-cols");
 
     const products = await page.locator(
@@ -97,6 +99,7 @@ test.describe("Home Page Tests", () => {
   test("should render BestSelling section with filtered products", async ({
     page,
   }) => {
+    allure.label("severity", "critical");
     // Wait for best-selling products to load
     await page.waitForSelector(".grid.grid-cols");
 
@@ -115,6 +118,7 @@ test.describe("Home Page Tests", () => {
   });
 
   test("should render Newsletter subscription form", async ({ page }) => {
+    allure.label("severity", "minor");
     const newsletterTitle = await page.locator(
       "h2:has-text('Stay Updated with Our Latest News')"
     );
@@ -150,6 +154,7 @@ test.describe("Home Page Tests", () => {
   test("should display key sections correctly on mobile viewport", async ({
     page,
   }) => {
+    allure.label("severity", "minor");
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto("http://localhost:5173/");
 

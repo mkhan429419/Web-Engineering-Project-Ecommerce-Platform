@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-
+import { allure } from "allure-playwright";
 test.describe("Collection Page Tests", () => {
   test.beforeEach(async ({ page }) => {
     console.log("Mock API called");
@@ -50,6 +50,7 @@ test.describe("Collection Page Tests", () => {
   });
 
   test("should display all products by default", async ({ page }) => {
+    allure.label("severity", "critical");
     const productA = page.locator("[data-testid='product-prod1']");
     const productB = page.locator("[data-testid='product-prod2']");
     const productC = page.locator("[data-testid='product-prod3']");
@@ -60,6 +61,7 @@ test.describe("Collection Page Tests", () => {
   });
 
   test("should filter products based on search query", async ({ page }) => {
+    allure.label("severity", "critical");
     await page.locator('input[placeholder="Search..."]').fill("Product B");
     await page.waitForTimeout(300); // Ensure state update and DOM rendering
     const productItems = page.locator(
@@ -83,6 +85,7 @@ test.describe("Collection Page Tests", () => {
   test("should filter products by category and subcategory", async ({
     page,
   }) => {
+    allure.label("severity", "critical");
     await page.locator("select").nth(1).selectOption("Tops"); // Filter by category
     await page.waitForTimeout(300); // Allow DOM updates
     const productItems = page.locator(
@@ -94,6 +97,7 @@ test.describe("Collection Page Tests", () => {
   test("should handle empty and long search queries gracefully", async ({
     page,
   }) => {
+    allure.label("severity", "minor");
     const searchInput = page.locator('input[placeholder="Search..."]');
     await searchInput.fill("");
     await page.waitForTimeout(300);

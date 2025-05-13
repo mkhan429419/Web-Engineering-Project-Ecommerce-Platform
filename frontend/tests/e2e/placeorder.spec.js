@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-
+import { allure } from "allure-playwright";
 test.describe("Place Order Page Tests", () => {
   test.beforeEach(async ({ page }) => {
     // Set a mock token in local storage
@@ -87,6 +87,7 @@ test.describe("Place Order Page Tests", () => {
   test("should validate shipping form before placing an order", async ({
     page,
   }) => {
+    allure.label("severity", "critical");
     await page.click("button:has-text('Place Order')");
 
     // Verify error toast for missing shipping details
@@ -116,6 +117,7 @@ test.describe("Place Order Page Tests", () => {
   });
 
   test("should calculate total amount correctly", async ({ page }) => {
+    allure.label("severity", "critical");
     const totalAmount = page.locator("[data-testid='total-amount']");
 
     // Wait for the total to be updated
@@ -127,6 +129,7 @@ test.describe("Place Order Page Tests", () => {
   });
 
   test("should place an order successfully", async ({ page }) => {
+    allure.label("severity", "blocker");
     // Fill out the form
     await page.fill("input[name='fname']", "John");
     await page.fill("input[name='lname']", "Doe");

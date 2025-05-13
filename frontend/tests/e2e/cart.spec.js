@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-
+import { allure } from "allure-playwright";
 test.describe("Cart Page Tests", () => {
   test.beforeEach(async ({ page }) => {
     // Set a mock token in local storage
@@ -79,6 +79,7 @@ test.describe("Cart Page Tests", () => {
   });
 
   test("should display cart items correctly", async ({ page }) => {
+    allure.label("severity", "critical");
     await page.waitForSelector("h1", { hasText: "Shopping Bag" });
 
     // Check that two items are rendered
@@ -103,6 +104,7 @@ test.describe("Cart Page Tests", () => {
   });
 
   test("should update item quantity correctly", async ({ page }) => {
+    allure.label("severity", "critical");
     const quantityInput = page.locator(
       "[data-testid='quantity-input-6768ffd6ad9c9ad645022b9d-M']"
     );
@@ -116,6 +118,7 @@ test.describe("Cart Page Tests", () => {
   });
 
   test("should remove an item correctly", async ({ page }) => {
+    allure.label("severity", "critical");
     const deleteIcon = page.locator(
       "[data-testid='delete-icon-6768ffd6ad9c9ad645022b9d-M']"
     );
@@ -134,6 +137,7 @@ test.describe("Cart Page Tests", () => {
     await expect(toastNotification).toBeVisible();
   });
   test("should calculate total price correctly", async ({ page }) => {
+    allure.label("severity", "blocker");
     const totalAmount = page.locator("[data-testid='total-amount']");
     await expect(totalAmount).toHaveText("Rs334.00");
   });
@@ -141,6 +145,7 @@ test.describe("Cart Page Tests", () => {
   test("should navigate to place order page on clicking place orders", async ({
     page,
   }) => {
+    allure.label("severity", "critical");
     const placeOrderButton = page.locator("button", {
       hasText: "Place Orders",
     });
@@ -166,6 +171,7 @@ test.describe("Cart Page Tests", () => {
   test("should show empty cart message when no cart items", async ({
     page,
   }) => {
+    allure.label("severity", "minor");
     await page.route("http://localhost:4000/api/cart/get", (route) => {
       route.fulfill({
         status: 200,

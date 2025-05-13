@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-
+import { allure } from "allure-playwright";
 test.describe("Order Page Tests", () => {
   test.beforeEach(async ({ page }) => {
     console.log("Mock API called");
@@ -68,6 +68,7 @@ test.describe("Order Page Tests", () => {
   test("should display a message when there are no orders", async ({
     page,
   }) => {
+    allure.label("severity", "minor");
     await page.route("http://localhost:4000/api/order/userorders", (route) => {
       route.fulfill({
         status: 200,
@@ -82,6 +83,7 @@ test.describe("Order Page Tests", () => {
   });
 
   test("should display the user's orders", async ({ page }) => {
+    allure.label("severity", "blocker");
     await page.evaluate(() => {
       localStorage.setItem("token", "valid-token");
     });
@@ -112,6 +114,7 @@ test.describe("Order Page Tests", () => {
   test("should handle unauthorized access when token is invalid", async ({
     page,
   }) => {
+    allure.label("severity", "critical");
     await page.evaluate(() => localStorage.setItem("token", "invalid-token"));
     await page.reload();
 
@@ -123,6 +126,7 @@ test.describe("Order Page Tests", () => {
   test("should not attempt to load orders when token is missing", async ({
     page,
   }) => {
+    allure.label("severity", "critical");
     await page.evaluate(() => localStorage.removeItem("token"));
     await page.reload();
 

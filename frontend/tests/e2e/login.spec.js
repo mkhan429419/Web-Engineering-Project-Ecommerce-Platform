@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-
+import { allure } from "allure-playwright";
 test.describe("Login Page Tests", () => {
   test.beforeEach(async ({ page }) => {
     console.log("Mock API called");
@@ -64,10 +64,10 @@ test.describe("Login Page Tests", () => {
 
     await page.goto("http://localhost:5173/login");
   });
-
   test("should successfully log in with correct credentials", async ({
     page,
   }) => {
+    allure.label("severity", "critical");
     await page.fill("input#email", "test@example.com");
     await page.fill("input#password", "password123");
     await page.click("button[type='submit']");
@@ -75,17 +75,20 @@ test.describe("Login Page Tests", () => {
     await page.waitForURL("http://localhost:5173/");
     expect(page.url()).toBe("http://localhost:5173/");
   });
-
   test("should show error for invalid login credentials", async ({ page }) => {
     await page.fill("input#email", "wrong@example.com");
     await page.fill("input#password", "wrongpassword");
     await page.click("button[type='submit']");
 
-    const errorToast = await page.locator(".Toastify__toast--error");
-    await expect(errorToast).toContainText("Invalid credentials");
+    const errorToast = page
+      .locator(".Toastify__toast--error")
+      .filter({ hasText: "Invalid credentials" });
+    await expect(errorToast).toHaveCount(1);
+    await expect(errorToast.first()).toContainText("Invalid credentials");
   });
 
   test("should switch to sign-up view and back to login", async ({ page }) => {
+    allure.label("severity", "minor");
     await page.click("text=Create Account");
     const signUpTitle = await page.locator("h1:has-text('Sign up')");
     await expect(signUpTitle).toBeVisible();
@@ -94,8 +97,8 @@ test.describe("Login Page Tests", () => {
     const loginTitle = await page.locator("h1:has-text('Login')");
     await expect(loginTitle).toBeVisible();
   });
-
   test("should successfully sign up with valid details", async ({ page }) => {
+    allure.label("severity", "critical");
     await page.click("text=Create Account");
 
     await page.fill("input#name", "Test User");
@@ -106,32 +109,37 @@ test.describe("Login Page Tests", () => {
     await page.waitForURL("http://localhost:5173/");
     expect(page.url()).toBe("http://localhost:5173/");
   });
-
   test("should show error for weak password during sign-up", async ({
     page,
   }) => {
     await page.click("text=Create Account");
-
     await page.fill("input#name", "Test User");
     await page.fill("input#email", "test@example.com");
     await page.fill("input#password", "short");
     await page.click("button[type='submit']");
 
-    const errorToast = await page.locator(".Toastify__toast--error");
-    await expect(errorToast).toContainText("Please enter a strong password");
+    const errorToast = page
+      .locator(".Toastify__toast--error")
+      .filter({ hasText: "Please enter a strong password" });
+    await expect(errorToast).toHaveCount(1);
+    await expect(errorToast.first()).toContainText(
+      "Please enter a strong password"
+    );
   });
-
   test("should show error for existing email during sign-up", async ({
     page,
   }) => {
     await page.click("text=Create Account");
-
     await page.fill("input#name", "Test User");
     await page.fill("input#email", "existing@example.com");
     await page.fill("input#password", "password123");
     await page.click("button[type='submit']");
-    const errorToast = await page.locator(".Toastify__toast--error");
-    await expect(errorToast).toContainText("User already exists");
+
+    const errorToast = page
+      .locator(".Toastify__toast--error")
+      .filter({ hasText: "User already exists" });
+    await expect(errorToast).toHaveCount(1);
+    await expect(errorToast.first()).toContainText("User already exists");
   });
   test("should show error for 7-character password during sign-up", async ({
     page,
@@ -141,12 +149,19 @@ test.describe("Login Page Tests", () => {
     await page.fill("input#email", "test7char@example.com");
     await page.fill("input#password", "1234567");
     await page.click("button[type='submit']");
-    const errorToast = await page.locator(".Toastify__toast--error");
-    await expect(errorToast).toContainText("Please enter a strong password");
+
+    const errorToast = page
+      .locator(".Toastify__toast--error")
+      .filter({ hasText: "Please enter a strong password" });
+    await expect(errorToast).toHaveCount(1);
+    await expect(errorToast.first()).toContainText(
+      "Please enter a strong password"
+    );
   });
   test("should redirect to homepage if token exists in localStorage", async ({
     page,
   }) => {
+    allure.label("severity", "critical");
     await page.addInitScript(() => {
       window.localStorage.setItem("token", "mock-token");
     });
@@ -161,6 +176,7 @@ test.describe("Login Page Tests", () => {
   test("should block invalid email format before form submission", async ({
     page,
   }) => {
+    allure.label("severity", "minor");
     await page.fill("input#email", "invalid-email");
     await page.fill("input#password", "somepassword");
 
@@ -171,6 +187,7 @@ test.describe("Login Page Tests", () => {
     expect(request).toBeNull();
   });
   test("should not submit login form with empty fields", async ({ page }) => {
+    allure.label("severity", "minor");
     await page.fill("input#email", "");
     await page.fill("input#password", "");
 
